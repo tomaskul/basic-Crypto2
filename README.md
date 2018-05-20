@@ -17,7 +17,15 @@ Also, I'm working through the challenges posed at the back of "The Code Book: Th
 - [ ] SHA-1 (not secure 2018+)
 - [ ] HMAC-SHA-1
 - [ ] SHA-2
+- [ ] MD5
 - [ ] OAuth / OAuth2
 - [ ] Blowfish
 - [ ] Twofish
 - [ ] Diffie-Hellman
+
+---
+
+## Forms of attack to implement (maybe)
+
+- [ ] Dictionary attack
+- [ ] Rainbow table attack
