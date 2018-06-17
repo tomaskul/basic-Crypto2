@@ -1,7 +1,10 @@
 ﻿namespace SimpleCryptography.Ciphers.Playfair_Cipher
 {
+    /// <summary>
+    /// Interface for Playfair cipher. Read more here: https://en.wikipedia.org/wiki/Playfair_cipher
+    /// </summary>
     public interface IPlayfairCipher
-    {
+    {        
         /// <summary>
         /// Encrypts a plaintext message by using the specified key.
         /// </summary>

@@ -51,12 +51,19 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         /// <exception cref="ArgumentNullException">Message/key is empty.</exception>
         private void ThrowIfInvalidArgument(string message, string key)
         {
-            const string pattern = @"[a-pr-zA-PR-Z]";
+            const string alphabetPattern = @"[a-pr-zA-PR-Z]";
+            
             if (string.IsNullOrWhiteSpace(message)){ throw new ArgumentNullException(nameof(message)); }
-            if (!Regex.IsMatch(message, pattern)){ throw new ArgumentException("Invalid message provided, must contain letters."); }
+            if (!Regex.IsMatch(message, alphabetPattern))
+            {
+                throw new ArgumentException("Invalid message provided, must contain letters.");
+            }
             
             if (string.IsNullOrWhiteSpace(key)){ throw new ArgumentNullException(nameof(key)); }
-            if (!Regex.IsMatch(key, pattern)){ throw new ArgumentException("Invalid key provided, must contain letters");}
+            if (!Regex.IsMatch(key, alphabetPattern))
+            {
+                throw new ArgumentException("Invalid key provided, must contain letters");
+            }
         }
 
         /// <summary>
