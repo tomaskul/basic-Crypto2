@@ -20,27 +20,54 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
             Assert.Throws<ArgumentException>(() => Cipher.EncryptMessage("Valid msg", "8888888888"));
         }
 
-        [Test]
-        public void QRegex_IsMatch()
-        {
-            const string pattern = @"[a-pr-zA-PR-Z]";
-            Assert.IsFalse(Regex.IsMatch("QQ", pattern));
-            Assert.IsFalse(Regex.IsMatch(" q", pattern));
-            Assert.IsFalse(Regex.IsMatch("q  ", pattern));
-            Assert.IsFalse(Regex.IsMatch(" q q   ", pattern));
-            Assert.IsFalse(Regex.IsMatch("   ", pattern));
-            Assert.IsTrue(Regex.IsMatch("albuquerque", pattern));
+        #region Regex tests
 
-            var regex = new Regex(pattern);
-            var matches = regex.Matches("albuquerque", 0);
+        private const string _acceptablePattern = "[a-pr-zA-PR-Z]";
+
+        [Test]
+        [TestCase("QQ")]
+        [TestCase("q")]
+        [TestCase(" q q QQq")]
+        [TestCase(" -  ")]
+        [TestCase("10")]
+        public void DoNotMatchPattern(string input)
+        {            
+            Assert.IsFalse(Regex.IsMatch(input, _acceptablePattern));
+        }
+        
+        [Test]
+        [TestCase("zQQ")]
+        [TestCase("qw")]
+        [TestCase(" q q QQeq")]
+        [TestCase(" -  m")]
+        [TestCase("10s")]
+        [TestCase("albuquerque")]
+        public void DoMatchPattern(string input)
+        {
+            Assert.IsTrue(Regex.IsMatch(input, _acceptablePattern));
+        }
+
+        [Test]
+        [TestCase("zQQ", "z")]
+        [TestCase("qw", "w")]
+        [TestCase(" q q QQeq", "e")]
+        [TestCase(" -  m", "m")]
+        [TestCase("10s", "s")]
+        [TestCase("albuquerque", "albuuerue")]        
+        public void RegexPatternMatch(string input, string expected)
+        {
+            var regex = new Regex(_acceptablePattern);
+            var matches = regex.Matches(input, 0);
+            
             var sb = new StringBuilder(string.Empty);
             for (var i = 0; i < matches.Count; i++)
             {
                 sb.Append(matches[i]);
             }
             
-            
-            Assert.AreEqual("albuuerue", sb.ToString());
+            Assert.AreEqual(expected, sb.ToString());
         }
+
+        #endregion
     }
 }
