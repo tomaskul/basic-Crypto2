@@ -1,23 +1,37 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using SimpleCryptography.Ciphers.Playfair_Cipher;
 
 namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
-{   
+{
     [TestFixture]
     public class PlayfairCipherTests
     {
         private static readonly IPlayfairCipher Cipher = new PlayfairCipher();
 
         [Test]
-        public void Encrypt_InvalidParams_Throws()
+        [TestCase("", "Hello")]
+        [TestCase("Msg", "")]
+        public void Encrypt_InvalidParams_ThrowsArgumentNullException(string message, string key)
         {
-            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage(string.Empty, "Hello"));
-            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage("Msg", string.Empty));
-            Assert.Throws<ArgumentException>(() => Cipher.EncryptMessage("5412", "Hello"));
-            Assert.Throws<ArgumentException>(() => Cipher.EncryptMessage("Valid msg", "8888888888"));
+            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage(message, key));
+        }
+
+        [Test]
+        [TestCase("5412", "Hello")]
+        [TestCase("Valid msg", "88888888")]
+        public void Encrypt_InvalidParams_ThrowsArgumentException(string message, string key)
+        {
+            Assert.Throws<ArgumentException>(() => Cipher.EncryptMessage(message, key));
+        }
+
+        [Test]
+        public void Encrypt_InvalidKey_ThrowsInvalidOperationException()
+        {
+            Assert.Throws<InvalidOperationException>(() => Cipher.EncryptMessage("msg", "abcdefghijklmnoprstuvwxyz"));
         }
 
         #region Regex tests
@@ -31,10 +45,10 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
         [TestCase(" -  ")]
         [TestCase("10")]
         public void DoNotMatchPattern(string input)
-        {            
+        {
             Assert.IsFalse(Regex.IsMatch(input, _acceptablePattern));
         }
-        
+
         [Test]
         [TestCase("zQQ")]
         [TestCase("qw")]
@@ -53,18 +67,19 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
         [TestCase(" q q QQeq", "e")]
         [TestCase(" -  m", "m")]
         [TestCase("10s", "s")]
-        [TestCase("albuquerque", "albuuerue")]        
+        [TestCase("albuquerque", "albuuerue")]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", "abcdefghijklmnoprstuvwxyz")]
         public void RegexPatternMatch(string input, string expected)
         {
             var regex = new Regex(_acceptablePattern);
             var matches = regex.Matches(input, 0);
-            
+
             var sb = new StringBuilder(string.Empty);
             for (var i = 0; i < matches.Count; i++)
             {
                 sb.Append(matches[i]);
             }
-            
+
             Assert.AreEqual(expected, sb.ToString());
         }
 
