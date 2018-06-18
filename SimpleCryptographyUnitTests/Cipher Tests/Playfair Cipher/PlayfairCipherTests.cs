@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
@@ -10,7 +9,8 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
     [TestFixture]
     public class PlayfairCipherTests
     {
-        private static readonly IPlayfairCipher Cipher = new PlayfairCipher();
+        private static readonly IDigramGenerator DigramGenerator = new DigramGenerator('X');
+        private static readonly IPlayfairCipher Cipher = new PlayfairCipher(DigramGenerator);
 
         [Test]
         [TestCase("", "Hello")]
