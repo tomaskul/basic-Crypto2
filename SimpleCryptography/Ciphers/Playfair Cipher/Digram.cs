@@ -12,11 +12,14 @@
         /// </summary>
         public char? CharacterTwo { get; set; } = null;
 
-        /// <summary>
-        /// Determines whether the digram is complete (i.e. both characters set)
-        /// </summary>
-        /// <returns></returns>
-        public bool IsComplete()
+        public override string ToString()
+        {
+            if (IsComplete()) { return $"'{CharacterOne}{CharacterTwo}'"; }
+
+            return CharacterOne != null ? $"'{CharacterOne}_'" : $"'_{CharacterTwo}'";
+        }
+        
+        private bool IsComplete()
         {
             return CharacterOne != null && CharacterTwo != null;
         }
