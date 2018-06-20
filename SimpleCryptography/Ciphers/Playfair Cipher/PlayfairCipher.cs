@@ -21,7 +21,13 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         {
             _digramGenerator = digramGenerator;
         }
-
+        
+        /// <summary>
+        /// Encrypts a plain text message by using the specified key.
+        /// </summary>
+        /// <param name="plainText">Text to encrypt.</param>
+        /// <param name="key">Key to encrypt text with.</param>
+        /// <returns>Encrypted plaintext</returns>
         public string EncryptMessage(string plainText, string key)
         {
             ThrowIfInvalidArgument(plainText, key);
@@ -30,6 +36,25 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             var sanitizedMessage = GetSanitisedString(plainText);
             var digrams = _digramGenerator.GetMessageDigram(sanitizedMessage);
 
+            var sb = new StringBuilder(string.Empty);
+
+            foreach (var digram in digrams)
+            {
+                if (IsSameRow(digram, cipherKey))
+                {
+                    
+                }
+                else if (IsSameColumn(digram, cipherKey))
+                {
+                    
+                }
+                else
+                {
+                    
+                }
+            }
+            
+            
             #if DEBUG
             
             for (var i = 0; i < 5; i++)
@@ -45,14 +70,42 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             return "";
 
             #endif
-            
-            throw new System.NotImplementedException();
+
+            return sb.ToString();
         }
 
+        /// <summary>
+        /// Encrypts a plain text message by using a cipher key.
+        /// </summary>
+        /// <param name="plainText">Text to encrypt.</param>
+        /// <param name="cipherKey">2D playfair cypher key.</param>
+        /// <returns></returns>
+        public string EncryptMessage(string plainText, char[,] cipherKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Decrypts cyphertext message by using the specified key.
+        /// </summary>
+        /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
+        /// <param name="key">Key to use for decryption.</param>
+        /// <returns>Plaintext derived by decrypting ciphertext via supplied key.</returns>s
         public string DecryptMessage(string cipherText, string key)
         {
             ThrowIfInvalidArgument(cipherText, key);
             throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Decypts a cyphertext message by using the specified cypher key.
+        /// </summary>
+        /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
+        /// <param name="cipherKey">2D playfair cypher key.</param>
+        /// <returns></returns>
+        public string DecryptMessage(string cipherText, char[,] cipherKey)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -109,8 +162,42 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             return output;
         }
 
+        private bool IsSameRow(Digram digram, char[,] cipherKey)
+        {
+            return false;
+        }
+
+        private bool IsSameColumn(Digram digram, char[,] cipherKey)
+        {
+            return false;
+        }
+        
+
         #region Key generation
 
+        /// <summary>
+        /// Generates the cypher key from specified plain text key to be used
+        /// during encryption.
+        /// </summary>
+        /// <param name="key">Plain text key</param>
+        /// <returns>2D array of characters that represents a cypher key.</returns>
+        public char[,] GenerateCypherKey(string key)
+        {
+            return GetCipherKey(key);
+        }
+        
+        /// <summary>
+        /// Determines whether the specified cypher key is valid (i.e. matches all the
+        /// necessary criteria).
+        /// </summary>
+        /// <param name="cypherKey">Cypher key to validate.</param>
+        /// <returns><c>true</c> if a valid cypher key; otherwise <c>false</c>.</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public bool IsValidCypherKey(char[,] cypherKey)
+        {
+            throw new NotImplementedException();
+        }
+        
         /// <summary>
         /// Gets the Playfair cipher key from specified key.
         /// </summary>
