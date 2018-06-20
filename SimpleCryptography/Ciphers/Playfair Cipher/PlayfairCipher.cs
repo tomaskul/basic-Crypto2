@@ -86,7 +86,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         }
 
         /// <summary>
-        /// Decrypts cyphertext message by using the specified key.
+        /// Decrypts cipher text message by using the specified key.
         /// </summary>
         /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
         /// <param name="key">Key to use for decryption.</param>
@@ -98,10 +98,10 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         }
 
         /// <summary>
-        /// Decypts a cyphertext message by using the specified cypher key.
+        /// Decypts a cipher text message by using the specified cipher key.
         /// </summary>
         /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
-        /// <param name="cipherKey">2D playfair cypher key.</param>
+        /// <param name="cipherKey">2D playfair cipher key.</param>
         /// <returns></returns>
         public string DecryptMessage(string cipherText, char[,] cipherKey)
         {
@@ -176,24 +176,24 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         #region Key generation
 
         /// <summary>
-        /// Generates the cypher key from specified plain text key to be used
+        /// Generates the cipher key from specified plain text key to be used
         /// during encryption.
         /// </summary>
         /// <param name="key">Plain text key</param>
-        /// <returns>2D array of characters that represents a cypher key.</returns>
-        public char[,] GenerateCypherKey(string key)
+        /// <returns>2D array of characters that represents a cipher key.</returns>
+        public char[,] GenerateCipherKey(string key)
         {
             return GetCipherKey(key);
         }
         
         /// <summary>
-        /// Determines whether the specified cypher key is valid (i.e. matches all the
+        /// Determines whether the specified cipher key is valid (i.e. matches all the
         /// necessary criteria).
         /// </summary>
-        /// <param name="cypherKey">Cypher key to validate.</param>
-        /// <returns><c>true</c> if a valid cypher key; otherwise <c>false</c>.</returns>
+        /// <param name="cipherKey">Cipher key to validate.</param>
+        /// <returns><c>true</c> if a valid cyipher key; otherwise <c>false</c>.</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool IsValidCypherKey(char[,] cypherKey)
+        public bool IsValidCipherKey(char[,] cipherKey)
         {
             throw new NotImplementedException();
         }

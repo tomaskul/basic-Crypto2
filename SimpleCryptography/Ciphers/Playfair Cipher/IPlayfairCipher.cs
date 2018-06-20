@@ -6,20 +6,20 @@
     public interface IPlayfairCipher
     {        
         /// <summary>
-        /// Generates the cypher key from specified plain text key to be used
+        /// Generates the cipher key from specified plain text key to be used
         /// during encryption.
         /// </summary>
         /// <param name="key">Plain text key</param>
-        /// <returns>2D array of characters that represents a cypher key.</returns>
-        char[,] GenerateCypherKey(string key);
+        /// <returns>2D array of characters that represents a cipher key.</returns>
+        char[,] GenerateCipherKey(string key);
 
         /// <summary>
-        /// Determines whether the specified cypher key is valid (i.e. matches all the
+        /// Determines whether the specified cipher key is valid (i.e. matches all the
         /// necessary criteria).
         /// </summary>
-        /// <param name="cypherKey">Cypher key to validate.</param>
-        /// <returns><c>true</c> if a valid cypher key; otherwise <c>false</c>.</returns>
-        bool IsValidCypherKey(char[,] cypherKey);
+        /// <param name="cipherKey">Cipher key to validate.</param>
+        /// <returns><c>true</c> if a valid cipher key; otherwise <c>false</c>.</returns>
+        bool IsValidCipherKey(char[,] cipherKey);
         
         /// <summary>
         /// Encrypts a plain text message by using the specified key.
@@ -33,12 +33,12 @@
         /// Encrypts a plain text message by using a cipher key.
         /// </summary>
         /// <param name="plainText">Text to encrypt.</param>
-        /// <param name="cipherKey">2D playfair cypher key.</param>
+        /// <param name="cipherKey">2D playfair cipher key.</param>
         /// <returns></returns>
         string EncryptMessage(string plainText, char[,] cipherKey);
         
         /// <summary>
-        /// Decrypts cyphertext message by using the specified key.
+        /// Decrypts ciphertext message by using the specified key.
         /// </summary>
         /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
         /// <param name="key">Key to use for decryption.</param>
@@ -46,10 +46,10 @@
         string DecryptMessage(string cipherText, string key);
 
         /// <summary>
-        /// Decypts a cyphertext message by using the specified cypher key.
+        /// Decypts a ciphertext message by using the specified cipher key.
         /// </summary>
         /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
-        /// <param name="cipherKey">2D playfair cypher key.</param>
+        /// <param name="cipherKey">2D playfair cipher key.</param>
         /// <returns></returns>
         string DecryptMessage(string cipherText, char[,] cipherKey);
     }
