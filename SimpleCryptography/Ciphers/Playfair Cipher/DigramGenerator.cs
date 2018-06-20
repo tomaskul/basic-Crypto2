@@ -23,37 +23,37 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         public IEnumerable<Digram> GetMessageDigram(string plainText)
         {
             var digrams = new List<Digram>();
-            var digram = new Digram();
+            var nullableDigram = new NullableDigram();;
 
             for (var i = 0; i < plainText.Length; i++)
             {
                 // First character within diagram has to be the first one to be initialised in order to preserve
                 // correct message order.
-                if (digram.CharacterOne == null)
+                if (nullableDigram.CharacterOne == null)
                 {
-                    digram.CharacterOne = plainText[i];
+                    nullableDigram.CharacterOne = plainText[i];
 
                     if (i + 1 == plainText.Length)
                     {
                         // End has been reached, and there are no other characters available to finish the digram.
                         // Use the default filler to account for this and pad the digram.
-                        digram.CharacterTwo = DigramFillerCharacter;
-                        digrams.Add(digram);
+                        nullableDigram.CharacterTwo = DigramFillerCharacter;
+                        digrams.Add(new Digram(nullableDigram.CharacterOne.Value, nullableDigram.CharacterTwo.Value));
                     }
-                    else if (digram.CharacterOne == plainText[i + 1])
+                    else if (nullableDigram.CharacterOne == plainText[i + 1])
                     {
                         // End hasn't been reached so more digrams should be creared, however a digram cannot 
                         // consist of two identical characters, use filler to complete current digram.
-                        digram.CharacterTwo = DigramFillerCharacter;
-                        digrams.Add(digram);
-                        digram = new Digram();
+                        nullableDigram.CharacterTwo = DigramFillerCharacter;
+                        digrams.Add(new Digram(nullableDigram.CharacterOne.Value, nullableDigram.CharacterTwo.Value));
+                        nullableDigram = new NullableDigram();;
                     }
                 }
                 else
                 {
-                    digram.CharacterTwo = plainText[i];
-                    digrams.Add(digram);
-                    digram = new Digram();
+                    nullableDigram.CharacterTwo = plainText[i];
+                    digrams.Add(new Digram(nullableDigram.CharacterOne.Value, nullableDigram.CharacterTwo.Value));
+                    nullableDigram = new NullableDigram();;
                 }
             }
 

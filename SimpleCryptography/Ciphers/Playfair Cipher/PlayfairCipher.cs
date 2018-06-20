@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,6 +10,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
     {
         private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ"; // 'Q' omitted.
         private const string AlphabetRegexPattern = @"[a-pr-zA-PR-Z]";
+        private const int CipherGridDimension = 5; // Cipher specifies 5 by 5 grid for the key.
 
         private readonly IDigramGenerator _digramGenerator;
 
@@ -21,7 +23,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         {
             _digramGenerator = digramGenerator;
         }
-        
+
         /// <summary>
         /// Encrypts a plain text message by using the specified key.
         /// </summary>
@@ -31,8 +33,8 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         public string EncryptMessage(string plainText, string key)
         {
             ThrowIfInvalidArgument(plainText, key);
+            
             var cipherKey = GetCipherKey(key);
-
             var sanitizedMessage = GetSanitisedString(plainText);
             var digrams = _digramGenerator.GetMessageDigram(sanitizedMessage);
 
@@ -40,36 +42,66 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
 
             foreach (var digram in digrams)
             {
-                if (IsSameRow(digram, cipherKey))
+                var charOnePosition = new CharacterPosition(digram.CharacterOne);
+                var charTwoPosition = new CharacterPosition(digram.CharacterTwo);
+
+                for (var row = 0; row < CipherGridDimension; row++)
                 {
-                    
+                    for (var column = 0; column < CipherGridDimension; column++)
+                    {
+                        if (cipherKey[row, column].Equals(digram.CharacterOne))
+                        {
+                            charOnePosition.Row = row;
+                            charOnePosition.Column = column;
+                        }
+                        else if (cipherKey[row, column].Equals(digram.CharacterTwo))
+                        {
+                            charTwoPosition.Row = row;
+                            charTwoPosition.Column = column;
+                        }
+                    }
                 }
-                else if (IsSameColumn(digram, cipherKey))
+
+                // Throw exception if for some reason necessary fields weren't initialised correctly.
+                ThrowIfUninitialisedCharacterPosition(charOnePosition);
+                ThrowIfUninitialisedCharacterPosition(charTwoPosition);
+
+                if (charOnePosition.Row == charTwoPosition.Row)
                 {
+                    // Same row - replace by characters immediately to the right of each char in digram.
+                    // if at the bottom of the grid, use top element.
                     
+                    sb.Append(cipherKey[charOnePosition.Row.Value,
+                        charOnePosition.Column.Value + 1 == CipherGridDimension
+                            ? 0
+                            : charOnePosition.Column.Value + 1]);
+
+                    sb.Append(cipherKey[charTwoPosition.Row.Value,
+                        charTwoPosition.Column.Value + 1 == CipherGridDimension
+                            ? 0
+                            : charTwoPosition.Column.Value + 1]);
+                }
+                else if (charOnePosition.Column == charTwoPosition.Column)
+                {
+                    // Same column - replace by characters immediately below each char in digram.
+                    // If at the bottom of the grid, use top element.
+
+                    sb.Append(cipherKey[charOnePosition.Row.Value + 1 == CipherGridDimension
+                        ? 0
+                        : charOnePosition.Row.Value + 1, charOnePosition.Column.Value]);
+
+                    sb.Append(cipherKey[charTwoPosition.Row.Value + 1 == CipherGridDimension
+                        ? 0
+                        : charTwoPosition.Row.Value + 1, charTwoPosition.Column.Value]);
                 }
                 else
                 {
-                    
+                    // Neither same row nor same column - 1st char = char1 row & char2 column,
+                    // 2nd char = char2 row & char1 column.
+                    sb.Append(cipherKey[charOnePosition.Row.Value, charTwoPosition.Column.Value]);
+                    sb.Append(cipherKey[charTwoPosition.Row.Value, charOnePosition.Column.Value]);
                 }
             }
-            
-            
-            #if DEBUG
-            
-            for (var i = 0; i < 5; i++)
-            {
-                for (var j = 0; j < 5; j++)
-                {
-                    Console.Write($"{cipherKey[i, j]} ");
-                }
-
-                Console.WriteLine();
-            }
-
-            return "";
-
-            #endif
 
             return sb.ToString();
         }
@@ -162,16 +194,14 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             return output;
         }
 
-        private bool IsSameRow(Digram digram, char[,] cipherKey)
+        private void ThrowIfUninitialisedCharacterPosition(CharacterPosition characterPosition)
         {
-            return false;
+            if (characterPosition.Row == null || characterPosition.Column == null)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(characterPosition)} X or Y positions weren't initialised.");
+            }
         }
-
-        private bool IsSameColumn(Digram digram, char[,] cipherKey)
-        {
-            return false;
-        }
-        
 
         #region Key generation
 
@@ -185,7 +215,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         {
             return GetCipherKey(key);
         }
-        
+
         /// <summary>
         /// Determines whether the specified cipher key is valid (i.e. matches all the
         /// necessary criteria).
@@ -197,7 +227,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         {
             throw new NotImplementedException();
         }
-        
+
         /// <summary>
         /// Gets the Playfair cipher key from specified key.
         /// </summary>
@@ -213,14 +243,11 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
                 ? sanitizedKey
                 : GetCompleteCipherKey(sanitizedKey);
 
-            // Cipher specifies 5 by 5 grid for the key. 
-            const int gridDimension = 5;
-
-            var cipherKey = new char[gridDimension, gridDimension];
+            var cipherKey = new char[CipherGridDimension, CipherGridDimension];
             var counter = 0;
-            for (var i = 0; i < gridDimension; i++)
+            for (var i = 0; i < CipherGridDimension; i++)
             {
-                for (var j = 0; j < gridDimension; j++)
+                for (var j = 0; j < CipherGridDimension; j++)
                 {
                     cipherKey[i, j] = keyString[counter];
                     counter++;

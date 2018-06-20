@@ -5,23 +5,22 @@
         /// <summary>
         /// First character within the digram.
         /// </summary>
-        public char? CharacterOne { get; set; } = null;
+        public char CharacterOne { get; private set; }
 
         /// <summary>
         /// Second character within the digram.
         /// </summary>
-        public char? CharacterTwo { get; set; } = null;
+        public char CharacterTwo { get; private set; }
+
+        public Digram(char characterOne, char characterTwo)
+        {
+            CharacterOne = characterOne;
+            CharacterTwo = characterTwo;
+        }
 
         public override string ToString()
         {
-            if (IsComplete()) { return $"'{CharacterOne}{CharacterTwo}'"; }
-
-            return CharacterOne != null ? $"'{CharacterOne}_'" : $"'_{CharacterTwo}'";
-        }
-        
-        private bool IsComplete()
-        {
-            return CharacterOne != null && CharacterTwo != null;
+            return $"'{CharacterOne}{CharacterTwo}'"; 
         }
     }
 }
