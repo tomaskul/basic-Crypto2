@@ -11,18 +11,20 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Vigenere_Square
         private const string EnglishAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         [Test]
-        public void Encrypt_InvalidParams()
+        [TestCase("", EnglishAlphabet, "HI")]
+        [TestCase("Message", "", "BILL")]
+        [TestCase("Hide your gold", EnglishAlphabet, "")]
+        public void EncryptMessage_InvalidParams_ThrowsArgumentNullException(string plainText, string alphabet, string key)
         {
-            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage(string.Empty, EnglishAlphabet, "HI"));
-            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage("Message", string.Empty, "HI"));
-            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage("Message", EnglishAlphabet, string.Empty));
+            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage(plainText, alphabet, key));
         }
 
         [Test]
-        public void Encrypt_ShortMessage()
+        [TestCase("Call me", "NOSE", "PODP ZS")]
+        [TestCase("thesunandthemaninthemoon", "KING", "DPRYEVNTNBUKWIAOXBUKWWBT")]
+        public void EncryptMessage_ValidParams_EncryptedMessage(string plainText, string key, string expected)
         {
-            var encryptedMessage = Cipher.EncryptMessage("Call me", EnglishAlphabet, "NOSE");
-            Assert.AreEqual("PODP ZS", encryptedMessage);
+            Assert.AreEqual(expected, Cipher.EncryptMessage(plainText, EnglishAlphabet, key));
         }
     }
 }
