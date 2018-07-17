@@ -8,7 +8,8 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
 {
     public class PlayfairCipher : IPlayfairCipher
     {
-        private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ"; // 'Q' omitted.
+        private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
+        private const char OmittedCharacter = 'Q';
         private const string AlphabetRegexPattern = @"[a-pr-zA-PR-Z]";
         private const int CipherGridDimension = 5; // Cipher specifies 5 by 5 grid for the key.
 
@@ -225,6 +226,34 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         /// <exception cref="NotImplementedException"></exception>
         public bool IsValidCipherKey(char[,] cipherKey)
         {
+            // Ensure that the dimensions match the requirements.
+            if (cipherKey.Rank != 2 || cipherKey.GetLength(0) != CipherGridDimension ||
+                cipherKey.GetLength(1) != CipherGridDimension)
+            {
+                return false;
+            }
+
+            var cipherKeyString = string.Empty;
+            for (var row = 0; row < CipherGridDimension; row++)
+            {
+                for (var column = 0; column < CipherGridDimension; column++)
+                {
+                    var currentCharacter = cipherKey[row, column]; 
+                    
+                    // Only letters are allowed.
+                    if (!char.IsLetter(currentCharacter) || !Alphabet.Contains(currentCharacter)) { return false; }
+
+                    // Only unique, non-omitted letters allowed.
+                    if (cipherKeyString.Contains(currentCharacter) || OmittedCharacter.Equals(currentCharacter))
+                    {
+                        return false;
+                    }
+
+                    cipherKeyString += currentCharacter;
+
+                }
+            }
+            
             throw new NotImplementedException();
         }
 
