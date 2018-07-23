@@ -7,6 +7,7 @@ Also, I'm working through the challenges posed at the back of "The Code Book: Th
 
 - [x] Vignere square
 - [ ] Playfair
+- [ ] ADFGVX
 - [ ] Generic RSA
 - [ ] RSA-1024
 - [ ] RSA-2048
@@ -14,6 +15,7 @@ Also, I'm working through the challenges posed at the back of "The Code Book: Th
 - [ ] AES
 
 ## Potentially
+- [ ] Frequency Analysis
 - [ ] SHA-1 (not secure 2018+)
 - [ ] HMAC-SHA-1
 - [ ] SHA-2
