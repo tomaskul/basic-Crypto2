@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CipherCrackers\FrequencyAnalysis\CharacterFrequency.cs" />
+    <Compile Include="CipherCrackers\FrequencyAnalysis\CharFrequencyAnalyzer.cs" />
+    <Compile Include="CipherCrackers\FrequencyAnalysis\ICharFrequencyAnalyzer.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\CaesarShiftCipher.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\ICaesarShiftCipher.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\IMonoalphabeticSubstitutionCipher.cs" />
@@ -59,9 +62,6 @@
     <Compile Include="Ciphers\Vigenere Cipher\IVigenereCipher.cs" />
     <Compile Include="Ciphers\Vigenere Cipher\VigenereCipher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CipherCrackers" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
