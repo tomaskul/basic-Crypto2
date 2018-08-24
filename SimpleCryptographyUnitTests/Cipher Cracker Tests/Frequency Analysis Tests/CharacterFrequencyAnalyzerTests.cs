@@ -28,10 +28,10 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         }
 
         [Test]
-        [TestCase('.', "...", 1.000, 3)]
-        [TestCase('!', "hi!", 0.333, 3)]
-        [TestCase('o', "cloud", 0.200, 3)]
-        [TestCase('a', "a quick brown fox jumped over a lazy dog", 0.075, 3)]
+        [TestCase('.', "...", 100.00, 3)]
+        [TestCase('!', "hi!", 33.333, 3)]
+        [TestCase('o', "cloud", 20.000, 3)]
+        [TestCase('a', "a quick brown fox jumped over a lazy dog", 7.5, 1)]
         public void GetSingleAnalyzedCharacter_CorrectFrequency(char character, string sourceText,
             decimal expectedFrequency, int decimalPlaceDelta)
         {

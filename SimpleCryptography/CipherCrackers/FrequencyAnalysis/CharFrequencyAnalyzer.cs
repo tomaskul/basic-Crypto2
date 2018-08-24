@@ -6,6 +6,7 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
     public class CharFrequencyAnalyzer : ICharFrequencyAnalyzer
     {
         private readonly int _frequencyDecimalPlaces = 0;
+        private const int PercentageDelta = 100; // Makes reading the percentages easier.
         
         public CharFrequencyAnalyzer()
         {
@@ -36,8 +37,8 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             // Avoid division by zero exception.
             if (sourceText.Length != 0)
             {
-                targetCharacter.Frequency = Convert.ToDecimal(targetCharacter.OccurenceCount) 
-                                / Convert.ToDecimal(sourceText.Length);
+                targetCharacter.Frequency = (Convert.ToDecimal(targetCharacter.OccurenceCount) 
+                                / Convert.ToDecimal(sourceText.Length)) * PercentageDelta;
 
                 // If rounding is enabled, round.
                 if (_frequencyDecimalPlaces > 0)
