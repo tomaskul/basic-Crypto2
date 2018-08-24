@@ -6,9 +6,7 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
 {
     [TestFixture]
     public class CharacterFrequencyAnalyzerTests
-    {
-        private ICharFrequencyAnalyzer _frequencyAnalyser = new CharFrequencyAnalyzer();
-        
+    {   
         [Test]
         [TestCase('*', "", 0)]
         [TestCase('4', "asparagus", 0)]
@@ -17,8 +15,10 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         public void GetSingleAnalyzedCharacter_CorrectOccurenceCount(char character,
             string sourceText, int expectedCount)
         {
-            var actual = _frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
-
+            var frequencyAnalyser = new CharFrequencyAnalyzer();
+            
+            var actual = frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
+            
             if (actual.OccurenceCount < 0)
             {
                 Assert.Fail("Negative character occurence count");
@@ -28,14 +28,18 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         }
 
         [Test]
-        [TestCase('.', "...", 100.000, 3)]
-        [TestCase('!', "hi!", 33.333, 3)]
+        [TestCase('.', "...", 1.000, 3)]
+        [TestCase('!', "hi!", 0.333, 3)]
+        [TestCase('o', "cloud", 0.200, 3)]
+        [TestCase('a', "a quick brown fox jumped over a lazy dog", 0.075, 3)]
         public void GetSingleAnalyzedCharacter_CorrectFrequency(char character, string sourceText,
-            double expectedFrequency, double discrepencyDelta)
+            decimal expectedFrequency, int decimalPlaceDelta)
         {
-            var actual = _frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
+            var frequencyAnalyser = new CharFrequencyAnalyzer(decimalPlaceDelta);
             
-            Assert.AreEqual(expectedFrequency, actual.Frequency, discrepencyDelta);
+            var actual = frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
+            
+            Assert.AreEqual(expectedFrequency, actual.Frequency);
         }
 
         [Test]
@@ -44,7 +48,9 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         public void GetMultipleCharacterFrequencies_ValidInputs_AllCharactersPresent(char[] characters,
             string sourceText)
         {
-            var frequencies = _frequencyAnalyser.GetMultipleCharacterFrequencies(characters, sourceText);
+            var frequencyAnalyser = new CharFrequencyAnalyzer();
+            
+            var frequencies = frequencyAnalyser.GetMultipleCharacterFrequencies(characters, sourceText);
             
             Assert.AreEqual(characters.Length, frequencies.Count());
         }
