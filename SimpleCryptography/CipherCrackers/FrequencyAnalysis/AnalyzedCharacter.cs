@@ -15,12 +15,12 @@
         /// <summary>
         /// Percentage of the text that the character makes up.
         /// </summary>
-        public double Frequency { get; set; }
+        public decimal Frequency { get; set; }
 
         public AnalyzedCharacter()
         {
             OccurenceCount = 0;
-            Frequency = 0.0;
+            Frequency = 0.0m;
         }
 
         public AnalyzedCharacter(char character) : this()
