@@ -14,10 +14,15 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         [TestCase('4', "asparagus", 0)]
         [TestCase('a', "aaabaaacaaadaaaa", 13)]
         [TestCase(' ', "quick brown fox counted the spaces", 5)]
-        public void GetSingleCharacterFrequency_CorrectOccurenceCount(char character,
+        public void GetSingleAnalyzedCharacter_CorrectOccurenceCount(char character,
             string sourceText, int expectedCount)
         {
-            var actual = _frequencyAnalyser.GetSingleCharacterFrequency(character, sourceText);
+            var actual = _frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
+
+            if (actual.OccurenceCount < 0)
+            {
+                Assert.Fail("Negative character occurence count");
+            }
             
             Assert.AreEqual(expectedCount, actual.OccurenceCount);
         }
@@ -25,10 +30,10 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         [Test]
         [TestCase('.', "...", 100.000, 3)]
         [TestCase('!', "hi!", 33.333, 3)]
-        public void GetSingleCharacterFrequency_CorrectFrequency(char character, string sourceText,
+        public void GetSingleAnalyzedCharacter_CorrectFrequency(char character, string sourceText,
             double expectedFrequency, double discrepencyDelta)
         {
-            var actual = _frequencyAnalyser.GetSingleCharacterFrequency(character, sourceText);
+            var actual = _frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
             
             Assert.AreEqual(expectedFrequency, actual.Frequency, discrepencyDelta);
         }
