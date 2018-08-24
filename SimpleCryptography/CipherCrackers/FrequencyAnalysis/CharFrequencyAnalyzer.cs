@@ -5,30 +5,48 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
 {
     public class CharFrequencyAnalyzer : ICharFrequencyAnalyzer
     {
+        private readonly int _frequencyDecimalPlaces = 0;
+        
         public CharFrequencyAnalyzer()
         {
+        }
+
+        public CharFrequencyAnalyzer(int frequencyDecimalPlaces)
+        {
+            if (frequencyDecimalPlaces <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Invalid decimal place value.");
+            }
+            
+            _frequencyDecimalPlaces = frequencyDecimalPlaces;
         }
         
         public AnalyzedCharacter GetSingleAnalyzedCharacter(char character, string sourceText)
         {
-            var characterFrequency = new AnalyzedCharacter(character);
+            var targetCharacter = new AnalyzedCharacter(character);
             
             foreach (var currentCharacter in sourceText)
             {
                 if (Equals(character, currentCharacter))
                 {
-                    characterFrequency.OccurenceCount++;
+                    targetCharacter.OccurenceCount++;
                 }
             }
 
             // Avoid division by zero exception.
             if (sourceText.Length != 0)
             {
-                double frequency = characterFrequency.OccurenceCount / sourceText.Length;
-                characterFrequency.Frequency = Math.Round(frequency, 5);
+                targetCharacter.Frequency = Convert.ToDecimal(targetCharacter.OccurenceCount) 
+                                / Convert.ToDecimal(sourceText.Length);
+
+                // If rounding is enabled, round.
+                if (_frequencyDecimalPlaces > 0)
+                {
+                    targetCharacter.Frequency = Math.Round(targetCharacter.Frequency, _frequencyDecimalPlaces);
+                }
             }
             
-            return characterFrequency;
+            return targetCharacter;
         }
 
         public IEnumerable<AnalyzedCharacter> GetAllCharacterFrequencies(string sourceText)
