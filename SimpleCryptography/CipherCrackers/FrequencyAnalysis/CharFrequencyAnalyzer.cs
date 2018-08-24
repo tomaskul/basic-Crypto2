@@ -50,9 +50,37 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             return targetCharacter;
         }
 
+        /// <summary>
+        /// Analyze all unique characters within the specified source text.
+        /// </summary>
+        /// <param name="sourceText"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// This basic implementation should serve the purpose for time being. However, it is
+        /// inefficient and processing time would grow very quickly with longer inputs. Ideally,
+        /// the input should only be parsed once.
+        /// </remarks>
         public IEnumerable<AnalyzedCharacter> GetAllCharacterFrequencies(string sourceText)
         {
-            throw new System.NotImplementedException();
+            var uniqueCharacters = new List<char>();
+
+            // Collect all unique characters.
+            foreach (var character in sourceText)
+            {
+                if (!uniqueCharacters.Contains(character))
+                {
+                    uniqueCharacters.Add(character);
+                }
+            }
+
+            // Analyze all characters.
+            var analyzedCharacters = new List<AnalyzedCharacter>(uniqueCharacters.Count);
+            foreach (var character in uniqueCharacters)
+            {
+                analyzedCharacters.Add(GetSingleAnalyzedCharacter(character, sourceText));
+            }
+            
+            return analyzedCharacters;
         }
 
         public IEnumerable<AnalyzedCharacter> GetMultipleCharacterFrequencies(char[] characters, string sourceText)
