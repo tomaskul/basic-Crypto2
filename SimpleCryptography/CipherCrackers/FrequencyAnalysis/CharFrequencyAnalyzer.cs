@@ -9,9 +9,9 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
         {
         }
         
-        public CharacterFrequency GetSingleCharacterFrequency(char character, string sourceText)
+        public AnalyzedCharacter GetSingleAnalyzedCharacter(char character, string sourceText)
         {
-            var characterFrequency = new CharacterFrequency(character);
+            var characterFrequency = new AnalyzedCharacter(character);
             
             foreach (var currentCharacter in sourceText)
             {
@@ -31,12 +31,12 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             return characterFrequency;
         }
 
-        public IEnumerable<CharacterFrequency> GetAllCharacterFrequencies(string sourceText)
+        public IEnumerable<AnalyzedCharacter> GetAllCharacterFrequencies(string sourceText)
         {
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<CharacterFrequency> GetMultipleCharacterFrequencies(char[] characters, string sourceText)
+        public IEnumerable<AnalyzedCharacter> GetMultipleCharacterFrequencies(char[] characters, string sourceText)
         {
             throw new System.NotImplementedException();
         }

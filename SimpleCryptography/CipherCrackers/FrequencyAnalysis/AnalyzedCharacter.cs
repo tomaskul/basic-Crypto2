@@ -1,6 +1,6 @@
 ﻿namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
 {
-    public class CharacterFrequency
+    public class AnalyzedCharacter
     {
         /// <summary>
         /// Character within source text.
@@ -17,13 +17,13 @@
         /// </summary>
         public double Frequency { get; set; }
 
-        public CharacterFrequency()
+        public AnalyzedCharacter()
         {
             OccurenceCount = 0;
             Frequency = 0.0;
         }
 
-        public CharacterFrequency(char character) : this()
+        public AnalyzedCharacter(char character) : this()
         {
             Character = character;
         }
