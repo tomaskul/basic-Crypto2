@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
 {
@@ -77,7 +78,7 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
         /// the input should only be parsed once.
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="sourceText"/> is empty.</exception>
-        public IEnumerable<AnalyzedCharacter> GetAllCharacterFrequencies(string sourceText)
+        public IEnumerable<AnalyzedCharacter> GetAllAnalyzedCharacters(string sourceText)
         {
             if (string.IsNullOrEmpty(sourceText))
             {
@@ -108,9 +109,34 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             }
         }
 
-        public IEnumerable<AnalyzedCharacter> GetMultipleCharacterFrequencies(char[] characters, string sourceText)
+        public IEnumerable<AnalyzedCharacter> GetMultipleAnalyzedCharacters(char[] characters, string sourceText)
         {
-            throw new System.NotImplementedException();
+            if (characters.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(characters));
+            }
+
+            if (string.IsNullOrEmpty(sourceText))
+            {
+                throw new ArgumentNullException(nameof(sourceText));
+            }
+            
+            var analyzedCharacters = characters.ToDictionary(selectedCharacter => 
+                selectedCharacter, selectedCharacter => new AnalyzedCharacter(selectedCharacter));
+
+            foreach (var character in sourceText)
+            {
+                if (analyzedCharacters.ContainsKey(character))
+                {
+                    analyzedCharacters[character].OccurenceCount++;
+                }
+            }
+
+            foreach (var character in analyzedCharacters)
+            {
+                character.Value.Frequency = GetCharacterFrequency(character.Value.OccurenceCount, sourceText.Length);
+                yield return character.Value;
+            }
         }
     }
 }

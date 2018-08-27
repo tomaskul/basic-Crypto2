@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using SimpleCryptography.CipherCrackers.FrequencyAnalysis;
 
@@ -10,23 +11,34 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         #region GetSingleAnalyzedCharacter
 
         [Test]
-        [TestCase('*', "", 0)]
-        [TestCase('4', "asparagus", 0)]
-        [TestCase('a', "aaabaaacaaadaaaa", 13)]
-        [TestCase(' ', "quick brown fox counted the spaces", 5)]
-        public void GetSingleAnalyzedCharacter_CorrectOccurenceCount(char character,
-            string sourceText, int expectedCount)
+        [TestCase('*', "")]
+        public void GetSingleAnalyzedCharacter_NoContent_ThrowsArgumentOutOfRange(char character,
+            string sourceText)
         {
             var frequencyAnalyser = new CharFrequencyAnalyzer();
             
-            var actual = frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
+            });
+        }
+        
+        [Test]
+        [TestCase('4', "asparagus", 0)]
+        [TestCase('a', "aaabaaacaaadaaaa", 13)]
+        [TestCase(' ', "quick brown fox counted the spaces", 5)]
+        public void GetSingleAnalyzedCharacter_HasContent_IsEqualToExpectedLength(char character,
+            string sourceText, int expectedCount)
+        {
+            var frequencyAnalyser = new CharFrequencyAnalyzer();
+            var analyzedCharacter = frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
             
-            if (actual.OccurenceCount < 0)
+            if (analyzedCharacter.OccurenceCount < 0)
             {
                 Assert.Fail("Negative character occurence count");
             }
             
-            Assert.AreEqual(expectedCount, actual.OccurenceCount);
+            Assert.AreEqual(expectedCount, analyzedCharacter.OccurenceCount);
         }
 
         [Test]
@@ -49,16 +61,24 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         #region GetMultipleAnalyzedCharacters
 
         [Test]
-        [TestCase(new[]{'a'}, "")]
         [TestCase(new[]{'a', 'b', 'z'}, "abbzzzz")]
-        public void GetMultipleCharacterFrequencies_ValidInputs_AllCharactersPresent(char[] characters,
+        public void GetMultipleAnalyzedCharacters_HasContent_AllCharactersPresent(char[] characters,
             string sourceText)
         {
             var frequencyAnalyser = new CharFrequencyAnalyzer();
+            var analyzedCharacters = frequencyAnalyser.GetMultipleAnalyzedCharacters(characters, sourceText).ToArray();
             
-            var frequencies = frequencyAnalyser.GetMultipleCharacterFrequencies(characters, sourceText);
+            Assert.AreEqual(characters.Length, analyzedCharacters.Length);
+
+            foreach (var character in characters)
+            {
+                if (!analyzedCharacters.Any(ac => ac.Character.Equals(character)))
+                {
+                    Assert.Fail($"Character '{character}' was not found in the analyzed set.");
+                }
+            }
             
-            Assert.AreEqual(characters.Length, frequencies.Count());
+            Assert.Pass();
         }
 
         #endregion
@@ -69,17 +89,16 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         [TestCase("ax", new[]{'a', 'x'})]
         [TestCase("8888888888", new[]{'8'})]
         [TestCase("abcdeF", new[]{'a', 'b', 'c', 'd', 'e', 'F'})]
-        public void GetAllCharacterFrequencies_FindsAllUniqueCharacters(string sourceText, char[] uniqueCharacters)
+        public void GGetAllAnalyzedCharacters_FindsAllUniqueCharacters(string sourceText, char[] uniqueCharacters)
         {
             var frequencyAnalyser = new CharFrequencyAnalyzer();
-
-            var output = frequencyAnalyser.GetAllCharacterFrequencies(sourceText);
+            var analyzedCharacters = frequencyAnalyser.GetAllAnalyzedCharacters(sourceText).ToArray();
             
-            Assert.AreEqual(uniqueCharacters.Length, output.Count());
+            Assert.AreEqual(uniqueCharacters.Length, analyzedCharacters.Count());
             
             foreach (var uniqueCharacter in uniqueCharacters)
             {
-                if (!output.Any(ac => ac.Character.Equals(uniqueCharacter)))
+                if (!analyzedCharacters.Any(ac => ac.Character.Equals(uniqueCharacter)))
                 {
                     Assert.Fail($"Character: '{uniqueCharacter}' was not found in the output set.");
                 }
@@ -92,22 +111,22 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         [TestCase("a")]
         [TestCase("lkfnldsfnalsf")]
         [TestCase("NOw let's try this with a longer input.")]
-        public void GetAllCharacterFrequencies_OccurenceCount_IsEqualToSourceTextLength(string sourceText)
+        public void GetAllAnalyzedCharacters_OccurenceCount_IsEqualToSourceTextLength(string sourceText)
         {
             var frequencyAnalyser = new CharFrequencyAnalyzer();
-
-            var analyzedCharacters = frequencyAnalyser.GetAllCharacterFrequencies(sourceText);
+            var analyzedCharacters = frequencyAnalyser.GetAllAnalyzedCharacters(sourceText);
+            
             var totalOccurenceCount = analyzedCharacters.Sum(analyzedCharacter => analyzedCharacter.OccurenceCount);
 
             Assert.AreEqual(sourceText.Length, totalOccurenceCount);
         }
 
         [Test]
-        public void GetAllCharacterFrequencies_EmptyInput_ThrowsArgumentNullException()
+        public void GetAllAnalyzedCharacters_EmptyInput_ThrowsArgumentNullException()
         {
             var frequencyAnalyzer = new CharFrequencyAnalyzer();
 
-            //Assert.Throws<ArgumentNullException>(() => );
+            Assert.Throws<ArgumentNullException>(() => { frequencyAnalyzer.GetAllAnalyzedCharacters(string.Empty); });
         }
 
         #endregion
