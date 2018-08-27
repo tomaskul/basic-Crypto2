@@ -6,7 +6,9 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
 {
     [TestFixture]
     public class CharacterFrequencyAnalyzerTests
-    {   
+    {
+        #region GetSingleAnalyzedCharacter
+
         [Test]
         [TestCase('*', "", 0)]
         [TestCase('4', "asparagus", 0)]
@@ -40,7 +42,11 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
             var actual = frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
             
             Assert.AreEqual(expectedFrequency, actual.Frequency);
-        }
+        }        
+
+        #endregion
+
+        #region GetMultipleAnalyzedCharacters
 
         [Test]
         [TestCase(new[]{'a'}, "")]
@@ -54,6 +60,10 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
             
             Assert.AreEqual(characters.Length, frequencies.Count());
         }
+
+        #endregion
+
+        #region GetAllAnalyzedCharacters
 
         [Test]
         [TestCase("ax", new[]{'a', 'x'})]
@@ -99,5 +109,8 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
 
             //Assert.Throws<ArgumentNullException>(() => );
         }
+
+        #endregion
+        
     }
 }
