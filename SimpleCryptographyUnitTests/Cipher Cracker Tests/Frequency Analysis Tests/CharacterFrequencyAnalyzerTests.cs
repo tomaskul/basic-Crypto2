@@ -54,5 +54,50 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
             
             Assert.AreEqual(characters.Length, frequencies.Count());
         }
+
+        [Test]
+        [TestCase("ax", new[]{'a', 'x'})]
+        [TestCase("8888888888", new[]{'8'})]
+        [TestCase("abcdeF", new[]{'a', 'b', 'c', 'd', 'e', 'F'})]
+        public void GetAllCharacterFrequencies_FindsAllUniqueCharacters(string sourceText, char[] uniqueCharacters)
+        {
+            var frequencyAnalyser = new CharFrequencyAnalyzer();
+
+            var output = frequencyAnalyser.GetAllCharacterFrequencies(sourceText);
+            
+            Assert.AreEqual(uniqueCharacters.Length, output.Count());
+            
+            foreach (var uniqueCharacter in uniqueCharacters)
+            {
+                if (!output.Any(ac => ac.Character.Equals(uniqueCharacter)))
+                {
+                    Assert.Fail($"Character: '{uniqueCharacter}' was not found in the output set.");
+                }
+            }
+            
+            Assert.Pass();
+        }
+
+        [Test]
+        [TestCase("a")]
+        [TestCase("lkfnldsfnalsf")]
+        [TestCase("NOw let's try this with a longer input.")]
+        public void GetAllCharacterFrequencies_OccurenceCount_IsEqualToSourceTextLength(string sourceText)
+        {
+            var frequencyAnalyser = new CharFrequencyAnalyzer();
+
+            var analyzedCharacters = frequencyAnalyser.GetAllCharacterFrequencies(sourceText);
+            var totalOccurenceCount = analyzedCharacters.Sum(analyzedCharacter => analyzedCharacter.OccurenceCount);
+
+            Assert.AreEqual(sourceText.Length, totalOccurenceCount);
+        }
+
+        [Test]
+        public void GetAllCharacterFrequencies_EmptyInput_ThrowsArgumentNullException()
+        {
+            var frequencyAnalyzer = new CharFrequencyAnalyzer();
+
+            //Assert.Throws<ArgumentNullException>(() => );
+        }
     }
 }
