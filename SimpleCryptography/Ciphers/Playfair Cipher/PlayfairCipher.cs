@@ -254,7 +254,8 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
                 }
             }
 
-            return true;
+            // Cipher key generation prevents the key from being same as the alphabet.
+            return !cipherKeyString.Equals(Alphabet);
         }
 
         /// <summary>
