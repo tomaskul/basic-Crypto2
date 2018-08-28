@@ -14,13 +14,8 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         {
             DigramFillerCharacter = digramFillerCharacter;
         }
-
-        /// <summary>
-        /// Generates an enumerable collection of digram objects from specified plain text.
-        /// </summary>
-        /// <param name="plainText"></param>
-        /// <returns></returns>
-        public IEnumerable<Digram> GetMessageDigram(string plainText)
+        
+        public IEnumerable<Digram> GetMessageDigrams(string plainText)
         {
             var digrams = new List<Digram>();
             var nullableDigram = new NullableDigram();;

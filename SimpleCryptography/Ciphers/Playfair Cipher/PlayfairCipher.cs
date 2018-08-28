@@ -37,7 +37,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             
             var cipherKey = GetCipherKey(key);
             var sanitizedMessage = GetSanitisedString(plainText);
-            var digrams = _digramGenerator.GetMessageDigram(sanitizedMessage);
+            var digrams = _digramGenerator.GetMessageDigrams(sanitizedMessage);
 
             var sb = new StringBuilder(string.Empty);
 

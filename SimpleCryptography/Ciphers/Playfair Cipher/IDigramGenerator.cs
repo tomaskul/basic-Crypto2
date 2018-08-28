@@ -9,6 +9,6 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         /// </summary>
         /// <param name="plainText"></param>
         /// <returns>Collection of digram objects.</returns>
-        IEnumerable<Digram> GetMessageDigram(string plainText);
+        IEnumerable<Digram> GetMessageDigrams(string plainText);
     }
 }
