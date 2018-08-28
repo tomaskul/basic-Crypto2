@@ -57,8 +57,11 @@
     <Compile Include="Ciphers\Playfair Cipher\DigramGenerator.cs" />
     <Compile Include="Ciphers\Playfair Cipher\IDigramGenerator.cs" />
     <Compile Include="Ciphers\Playfair Cipher\IPlayfairCipher.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\Key Management\IPlayfairKeyManagement.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\Key Management\PlayfairKeyManagement.cs" />
     <Compile Include="Ciphers\Playfair Cipher\NullableDigram.cs" />
     <Compile Include="Ciphers\Playfair Cipher\PlayfairCipher.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\PlayfairUtil.cs" />
     <Compile Include="Ciphers\Vigenere Cipher\IVigenereCipher.cs" />
     <Compile Include="Ciphers\Vigenere Cipher\VigenereCipher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
