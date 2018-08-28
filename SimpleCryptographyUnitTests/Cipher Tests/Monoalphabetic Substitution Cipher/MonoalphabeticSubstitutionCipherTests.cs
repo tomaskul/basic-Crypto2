@@ -29,35 +29,39 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Monoalphabetic_Substitution_C
         });
 
         [Test]
-        public void Encrypt()
+        [TestCase("Hi Dave!", "MT RCHS!")]
+        public void Encrypt_ValidInput_Key_AreEqual(string plainText, string cipherText)
         {
-            var encryptedMessage = Cipher.EncryptMessage("Hi Dave!", Key);
+            var encryptedMessage = Cipher.EncryptMessage(plainText, Key);
             
-            Assert.AreEqual("MT RCHS!", encryptedMessage);
+            Assert.AreEqual(cipherText, encryptedMessage);
         }
 
         [Test]
-        public void Encrypt_NoPunctuation()
+        [TestCase("Hi Dave!", "MTRCHS")]
+        public void Encrypt_ValidInput_KeyNoPunctuation_AreEqual(string plainText, string cipherText)
         {
-            var encryptedMessage = Cipher.EncryptMessage("Hi Dave!", KeyNoPunctuation);
+            var encryptedMessage = Cipher.EncryptMessage(plainText, KeyNoPunctuation);
             
-            Assert.AreEqual("MTRCHS", encryptedMessage);
+            Assert.AreEqual(cipherText, encryptedMessage);
         }
 
         [Test]
-        public void Decrypt()
+        [TestCase("RKI'X LYEJTWM XMS LCWWGKDR!", "don't publish the password!")]
+        public void Decrypt_ValidInput_Key_AreEqual(string cipherText, string plainText)
         {
-            var decryptedMessage = Cipher.DecryptMessage("RKI'X LYEJTWM XMS LCWWGKDR!", Key);
+            var decryptedMessage = Cipher.DecryptMessage(cipherText, Key);
             
-            Assert.AreEqual("don't publish the password!", decryptedMessage);
+            Assert.AreEqual(plainText, decryptedMessage);
         }
 
         [Test]
-        public void DecryptNoPunctuation()
+        [TestCase("RKIXLYEJTWMXMSLCWWGKDR", "dontpublishthepassword")]
+        public void Decrypt_ValidInput_KeyNoPunctuation_AreEqual(string cipherText, string plainText)
         {
-            var decryptedMessage = Cipher.DecryptMessage("RKIXLYEJTWMXMSLCWWGKDR", KeyNoPunctuation);
+            var decryptedMessage = Cipher.DecryptMessage(cipherText, KeyNoPunctuation);
             
-            Assert.AreEqual("dontpublishthepassword", decryptedMessage);
+            Assert.AreEqual(plainText, decryptedMessage);
         }
     }
 }
