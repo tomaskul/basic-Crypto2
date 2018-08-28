@@ -51,7 +51,6 @@
     <Compile Include="Cipher Tests\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionCipherTests.cs" />
     <Compile Include="Cipher Tests\Playfair Cipher\DigramGeneratorTests.cs" />
     <Compile Include="Cipher Tests\Playfair Cipher\PlayfairCipherTests.cs" />
-    <Compile Include="Cipher Tests\Vigenere Square\Stage4Tests.cs" />
     <Compile Include="Cipher Tests\Vigenere Square\VigenereCipherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
