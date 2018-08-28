@@ -16,7 +16,7 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
         [TestCase("MEETMEATHAMMERSMITHBRIDGETONIGHT", "'ME' 'ET' 'ME' 'AT' 'HA' 'MX' 'ME' 'RS' 'MI' 'TH' 'BR' 'ID' 'GE' 'TO' 'NI' 'GH' 'TX'")]
         public void GenerateDigram_ValidInputs(string message, string toStringOutput)
         {
-            DigramGenerator.GetMessageDigram(message);
+            DigramGenerator.GetMessageDigrams(message);
             Assert.AreEqual(toStringOutput, DigramGenerator.ToString());
         }
     }
