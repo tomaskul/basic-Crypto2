@@ -169,16 +169,22 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
                 throw new ArgumentException("Invalid key provided, must contain letters");
             }
         }
-
+        
         /// <summary>
         /// Applies the supported alphabets' regex to filter out unacceptable characters.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">Input to sanitize.</param>
+        /// <returns>String comprised of all upper case, accepted characters.</returns>
+        /// <exception cref="ArgumentException">If none of the the characters within input were valid.</exception>
         private static string GetSanitisedString(string input)
         {
             var regex = new Regex(AlphabetRegexPattern);
             var matches = regex.Matches(input.ToUpper(), 0);
+
+            if (matches.Count == 0)
+            {
+                throw new ArgumentException($"None of the characters within input '{input}' were valid.");
+            }
 
             var sb = new StringBuilder(string.Empty);
             for (var i = 0; i < matches.Count; i++)
@@ -186,13 +192,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
                 sb.Append(matches[i]);
             }
 
-            var output = sb.ToString();
-            if (string.IsNullOrEmpty(output))
-            {
-                throw new ArgumentException($"None of the characters within input '{input}' were valid.");
-            }
-
-            return output;
+            return sb.ToString();
         }
 
         private void ThrowIfUninitialisedCharacterPosition(CharacterPosition characterPosition)
@@ -253,8 +253,8 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
 
                 }
             }
-            
-            throw new NotImplementedException();
+
+            return true;
         }
 
         /// <summary>
