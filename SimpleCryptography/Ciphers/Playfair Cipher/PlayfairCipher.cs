@@ -159,7 +159,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
                 if (charOnePosition.Row == charTwoPosition.Row)
                 {
                     // Same row - replace by characters immediately to the right of each char in digram.
-                    // if at the bottom of the grid, use top element.
+                    // if at the end of the grid, use initial element.
                     
                     sb.Append(cipherKey[charOnePosition.Row.Value,
                         charOnePosition.Column.Value + 1 == CipherGridDimension
