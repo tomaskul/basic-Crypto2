@@ -58,10 +58,10 @@
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionCipher.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionKey.cs" />
     <Compile Include="Ciphers\Playfair Cipher\CharacterPosition.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digrams\Digraph.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digrams\DigrathGenerator.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digrams\IDigrathGenerator.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digrams\NullableDigrath.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\Digraths\Digraph.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\Digraths\DigrathGenerator.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\Digraths\IDigrathGenerator.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\Digraths\NullableDigrath.cs" />
     <Compile Include="Ciphers\Playfair Cipher\IPlayfairCipher.cs" />
     <Compile Include="Ciphers\Playfair Cipher\Key Management\IPlayfairKeyManagement.cs" />
     <Compile Include="Ciphers\Playfair Cipher\Key Management\PlayfairKeyManagement.cs" />
