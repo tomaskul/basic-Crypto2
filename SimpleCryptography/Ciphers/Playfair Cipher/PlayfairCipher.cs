@@ -8,9 +8,6 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
 {
     public class PlayfairCipher : IPlayfairCipher
     {
-        private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
-        private const char OmittedCharacter = 'Q';
-        private const string AlphabetRegexPattern = @"[a-pr-zA-PR-Z]";
         private const int CipherGridDimension = 5; // Cipher specifies 5 by 5 grid for the key.
 
         private readonly IDigramGenerator _digramGenerator;
@@ -37,8 +34,6 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         /// <returns>Encrypted plaintext</returns>
         public string EncryptMessage(string plainText, string key)
         {
-            ThrowIfInvalidArgument(plainText, key);
-            
             var cipherKey = _keyManagement.GenerateCipherKey(key);
             var sanitizedMessage = PlayfairUtil.GetSanitisedString(plainText);
             var digrams = _digramGenerator.GetMessageDigrams(sanitizedMessage);
@@ -71,7 +66,6 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         /// <returns>Plaintext derived by decrypting ciphertext via supplied key.</returns>s
         public string DecryptMessage(string cipherText, string key)
         {
-            ThrowIfInvalidArgument(cipherText, key);
             throw new System.NotImplementedException();
         }
 
@@ -84,35 +78,6 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         public string DecryptMessage(string cipherText, char[,] cipherKey)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Throws an exception if any of the arguments used for encryption/decryption are considered invalid.
-        /// </summary>
-        /// <param name="message">Plain/Cipher text.</param>
-        /// <param name="key">Key.</param>
-        /// <exception cref="ArgumentNullException">Message/key is empty.</exception>
-        private void ThrowIfInvalidArgument(string message, string key)
-        {
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                throw new ArgumentNullException(nameof(message));
-            }
-
-            if (!Regex.IsMatch(message, AlphabetRegexPattern))
-            {
-                throw new ArgumentException("Invalid message provided, must contain letters.");
-            }
-
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            if (!Regex.IsMatch(key, AlphabetRegexPattern))
-            {
-                throw new ArgumentException("Invalid key provided, must contain letters");
-            }
         }
         
         private void ThrowIfUninitialisedCharacterPosition(CharacterPosition characterPosition)

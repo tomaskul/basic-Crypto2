@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,6 +8,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
     public static class PlayfairUtil
     {
         private const string AlphabetRegexPattern = @"[a-pr-zA-PR-Z]";
+        private const char OmittedCharacter = 'Q';
         
         /// <summary>
         /// Applies the supported alphabets' regex to filter out unacceptable characters.
@@ -16,6 +18,8 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         /// <exception cref="ArgumentException">If none of the the characters within input were valid.</exception>
         public static string GetSanitisedString(string input)
         {
+            if (string.IsNullOrWhiteSpace(input)) { throw new ArgumentNullException(nameof(input)); }
+            
             var regex = new Regex(AlphabetRegexPattern);
             var matches = regex.Matches(input.ToUpper(), 0);
 
