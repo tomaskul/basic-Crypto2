@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using SimpleCryptography.Ciphers.Playfair_Cipher.Digrams;
 using SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management;
 
 namespace SimpleCryptography.Ciphers.Playfair_Cipher

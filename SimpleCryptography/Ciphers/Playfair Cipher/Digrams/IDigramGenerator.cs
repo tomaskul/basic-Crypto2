@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleCryptography.Ciphers.Playfair_Cipher
+namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digrams
 {
     public interface IDigramGenerator
     {

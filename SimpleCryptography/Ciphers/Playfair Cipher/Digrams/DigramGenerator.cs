@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace SimpleCryptography.Ciphers.Playfair_Cipher
+namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digrams
 {
     public class DigramGenerator : IDigramGenerator
     {
