@@ -4,16 +4,17 @@ using System.Text;
 
 namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
 {
+    /// <summary>
+    /// This implementation uses the English alphabet and character 'Q' is omitted.
+    /// </summary>
     public class PlayfairKeyManagement : IPlayfairKeyManagement
     {
-        private static string _alphabet;
-        private readonly char _omittedCharacter;
+        private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
+        private const char OmittedCharacter = 'Q';
         private const int CipherGridDimension = 5;
         
-        public PlayfairKeyManagement(string alphabet, char omittedCharacter)
+        public PlayfairKeyManagement()
         {
-            _alphabet = alphabet;
-            _omittedCharacter = omittedCharacter;
         }
         
         /// <inheritdoc />
@@ -23,7 +24,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
             var sanitisedKey = GetSanitisedKey(PlayfairUtil.GetSanitisedString(key));
             
             // 2. Get complete key string.
-            var keyString = sanitisedKey.Length == _alphabet.Length
+            var keyString = sanitisedKey.Length == Alphabet.Length
                 ? sanitisedKey
                 : GetCompleteCipherKey(sanitisedKey);
 
@@ -54,14 +55,14 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
             {
                 // Only record; Unique Alphabet characters.
                 if (!sb.ToString().Any(c => c.Equals(character))
-                    && !character.Equals('Q') && _alphabet.Contains(character))
+                    && !character.Equals('Q') && Alphabet.Contains(character))
                 {
                     sb.Append(character);
                 }
             }
 
             var sanitizedKey = sb.ToString();
-            if (_alphabet.Equals(sanitizedKey))
+            if (Alphabet.Equals(sanitizedKey))
             {
                 // Sanitized key that's identical to the alphabet essentially provides negative security (i.e. could
                 // lead to false sense of security when there is none). This does slightly reduce the search space,  
@@ -79,7 +80,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
         /// <returns>Playfair cipher key.</returns>
         private static string GetCompleteCipherKey(string incompleteKey)
         {
-            foreach (var letter in _alphabet)
+            foreach (var letter in Alphabet)
             {
                 if (!incompleteKey.Contains(letter))
                 {
@@ -108,10 +109,10 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
                     var currentCharacter = cipherKey[row, column]; 
                     
                     // Only letters are allowed.
-                    if (!char.IsLetter(currentCharacter) || !_alphabet.Contains(currentCharacter)) { return false; }
+                    if (!char.IsLetter(currentCharacter) || !Alphabet.Contains(currentCharacter)) { return false; }
 
                     // Only unique, non-omitted letters allowed.
-                    if (cipherKeyString.Contains(currentCharacter) || _omittedCharacter.Equals(currentCharacter))
+                    if (cipherKeyString.Contains(currentCharacter) || OmittedCharacter.Equals(currentCharacter))
                     {
                         return false;
                     }
@@ -122,7 +123,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
             }
 
             // Cipher key generation prevents the key from being same as the alphabet.
-            return !cipherKeyString.Equals(_alphabet);
+            return !cipherKeyString.Equals(Alphabet);
         }
     }
 }
