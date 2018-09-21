@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="plainText">Text to encrypt.</param>
         /// <param name="cipherKey">2D playfair cipher key.</param>
-        /// <returns></returns>
+        /// <returns>Encrypted plaintext</returns>
         string EncryptMessage(string plainText, char[,] cipherKey);
         
         /// <summary>
@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
         /// <param name="cipherKey">2D playfair cipher key.</param>
-        /// <returns></returns>
+        /// <returns>Plaintext derived by decrypting ciphertext via supplied key.</returns>
         string DecryptMessage(string cipherText, char[,] cipherKey);
     }
 }

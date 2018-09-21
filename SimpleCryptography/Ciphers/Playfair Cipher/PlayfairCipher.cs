@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
-using SimpleCryptography.Ciphers.Playfair_Cipher.Digrams;
+using SimpleCryptography.Ciphers.Playfair_Cipher.Digraths;
 using SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management;
 
 namespace SimpleCryptography.Ciphers.Playfair_Cipher
@@ -16,101 +15,66 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
 
         /// <summary>
         /// Constructs an object able to encrypt & decrypt messages using playfair cipher. Please note
-        /// that this implementaton only uses english alphabet and letter 'Q' is being omitted from the
+        /// that this implementaton only uses English alphabet and letter 'Q' is being omitted from the
         /// cipher key table. Numbers and special characters are ignored.
         /// </summary>
-        /// <param name="digrathGenerator">Digram generator.</param>
+        /// <param name="digrathGenerator">Digrath generator.</param>
         /// <param name="playfairKeyManagement">Playfair key management.</param>
         public PlayfairCipher(IDigrathGenerator digrathGenerator, IPlayfairKeyManagement playfairKeyManagement)
         {
             _digrathGenerator = digrathGenerator;
             _keyManagement = playfairKeyManagement;
         }
-
-        /// <summary>
-        /// Encrypts a plain text message by using the specified key.
-        /// </summary>
-        /// <param name="plainText">Text to encrypt.</param>
-        /// <param name="key">Key to encrypt text with.</param>
-        /// <returns>Encrypted plaintext</returns>
+        
         public string EncryptMessage(string plainText, string key)
         {
             var cipherKey = _keyManagement.GenerateCipherKey(key);
             var sanitizedMessage = PlayfairUtil.GetSanitisedString(plainText);
-            var digrams = _digrathGenerator.GetMessageDigraths(sanitizedMessage);
+            var digraphs = _digrathGenerator.GetMessageDigraths(sanitizedMessage);
 
-            return Encrypt(digrams, cipherKey);
+            return Encrypt(digraphs, cipherKey);
         }
 
-        /// <summary>
-        /// Encrypts a plain text message by using a cipher key.
-        /// </summary>
-        /// <param name="plainText">Text to encrypt.</param>
-        /// <param name="cipherKey">2D playfair cypher key.</param>
-        /// <returns></returns>
         public string EncryptMessage(string plainText, char[,] cipherKey)
         {
-            if (!_keyManagement.IsValidCipherKey(cipherKey))
-            {
-                throw new ArgumentException("Invalid cipher key.");
-            }
-            
-            
-            throw new NotImplementedException();
+            if (!_keyManagement.IsValidCipherKey(cipherKey)) { throw new ArgumentException("Invalid cipher key."); }
+            var sanitizedMessage = PlayfairUtil.GetSanitisedString(plainText);
+            var digraths = _digrathGenerator.GetMessageDigraths(sanitizedMessage);
+
+            return Encrypt(digraths, cipherKey);
         }
 
-        /// <summary>
-        /// Decrypts cipher text message by using the specified key.
-        /// </summary>
-        /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
-        /// <param name="key">Key to use for decryption.</param>
-        /// <returns>Plaintext derived by decrypting ciphertext via supplied key.</returns>s
         public string DecryptMessage(string cipherText, string key)
         {
             throw new System.NotImplementedException();
         }
-
-        /// <summary>
-        /// Decypts a cipher text message by using the specified cipher key.
-        /// </summary>
-        /// <param name="cipherText">Plaintext encrypted via playfair key.</param>
-        /// <param name="cipherKey">2D playfair cipher key.</param>
-        /// <returns></returns>
+        
         public string DecryptMessage(string cipherText, char[,] cipherKey)
         {
             throw new NotImplementedException();
         }
-        
-        private void ThrowIfUninitialisedCharacterPosition(CharacterPosition characterPosition)
-        {
-            if (characterPosition.Row == null || characterPosition.Column == null)
-            {
-                throw new InvalidOperationException(
-                    $"{nameof(characterPosition)} X or Y positions weren't initialised.");
-            }
-        }
 
         #region Encryption
 
-        private string Encrypt(IEnumerable<Digraph> digrams, char[,] cipherKey)
+        private static string Encrypt(IEnumerable<Digraph> digraths, char[,] cipherKey)
         {
             var sb = new StringBuilder(string.Empty);
 
-            foreach (var digram in digrams)
+            foreach (var digraph in digraths)
             {
-                var charOnePosition = new CharacterPosition(digram.CharacterOne);
-                var charTwoPosition = new CharacterPosition(digram.CharacterTwo);
+                var charOnePosition = new CharacterPosition(digraph.CharacterOne);
+                var charTwoPosition = new CharacterPosition(digraph.CharacterTwo);
 
                 for (var row = 0; row < CipherGridDimension; row++)
                 {
                     for (var column = 0; column < CipherGridDimension; column++)
                     {
-                        if (cipherKey[row, column].Equals(digram.CharacterOne))
+                        if (cipherKey[row, column].Equals(digraph.CharacterOne))
                         {
                             charOnePosition.Row = row;
                             charOnePosition.Column = column;
                         }
-                        else if (cipherKey[row, column].Equals(digram.CharacterTwo))
+                        else if (cipherKey[row, column].Equals(digraph.CharacterTwo))
                         {
                             charTwoPosition.Row = row;
                             charTwoPosition.Column = column;
@@ -160,6 +124,15 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             }
 
             return sb.ToString();
+        }
+        
+        private static void ThrowIfUninitialisedCharacterPosition(CharacterPosition characterPosition)
+        {
+            if (characterPosition.Row == null || characterPosition.Column == null)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(characterPosition)} X or Y positions weren't initialised.");
+            }
         }
 
         #endregion
