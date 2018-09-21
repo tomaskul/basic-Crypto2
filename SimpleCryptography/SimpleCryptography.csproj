@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CipherCrackers\AnalysedEntity.cs" />
-    <Compile Include="CipherCrackers\FrequencyAnalysis\AnalyzedCharacter.cs" />
+    <Compile Include="CipherCrackers\FrequencyAnalysis\AnalysedCharacter.cs" />
     <Compile Include="CipherCrackers\FrequencyAnalysis\CharFrequencyAnalyzer.cs" />
     <Compile Include="CipherCrackers\FrequencyAnalysis\ICharFrequencyAnalyzer.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\CaesarShiftCipher.cs" />

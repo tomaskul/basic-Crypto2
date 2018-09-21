@@ -23,9 +23,9 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             _frequencyDecimalPlaces = frequencyDecimalPlaces;
         }
         
-        public AnalyzedCharacter GetSingleAnalyzedCharacter(char character, string sourceText)
+        public AnalysedCharacter GetSingleAnalyzedCharacter(char character, string sourceText)
         {
-            var targetCharacter = new AnalyzedCharacter(character);
+            var targetCharacter = new AnalysedCharacter(character);
             
             foreach (var currentCharacter in sourceText)
             {
@@ -78,14 +78,14 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
         /// the input should only be parsed once.
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="sourceText"/> is empty.</exception>
-        public IEnumerable<AnalyzedCharacter> GetAllAnalyzedCharacters(string sourceText)
+        public IEnumerable<AnalysedCharacter> GetAllAnalyzedCharacters(string sourceText)
         {
             if (string.IsNullOrEmpty(sourceText))
             {
                 throw new ArgumentNullException("Cannot analyze contents of an empty input.");
             }
             
-            var uniqueCharacters = new Dictionary<char, AnalyzedCharacter>();
+            var uniqueCharacters = new Dictionary<char, AnalysedCharacter>();
 
             // Collect all unique characters.
             foreach (var character in sourceText)
@@ -93,7 +93,7 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
                 if (!uniqueCharacters.ContainsKey(character))
                 {
                     // Collect all unique characters from source text
-                    uniqueCharacters.Add(character, new AnalyzedCharacter(character));
+                    uniqueCharacters.Add(character, new AnalysedCharacter(character));
                 }
                 
                 // Not inside an 'else' block, as newly added characters need an increment too.
@@ -109,7 +109,7 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             }
         }
 
-        public IEnumerable<AnalyzedCharacter> GetMultipleAnalyzedCharacters(char[] characters, string sourceText)
+        public IEnumerable<AnalysedCharacter> GetMultipleAnalyzedCharacters(char[] characters, string sourceText)
         {
             if (characters.Length == 0)
             {
@@ -122,7 +122,7 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             }
             
             var analyzedCharacters = characters.ToDictionary(selectedCharacter => 
-                selectedCharacter, selectedCharacter => new AnalyzedCharacter(selectedCharacter));
+                selectedCharacter, selectedCharacter => new AnalysedCharacter(selectedCharacter));
 
             foreach (var character in sourceText)
             {

@@ -4,8 +4,8 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
 {
     public interface ICharFrequencyAnalyzer
     {
-        AnalyzedCharacter GetSingleAnalyzedCharacter(char character, string sourceText);
-        IEnumerable<AnalyzedCharacter> GetAllAnalyzedCharacters(string sourceText);
-        IEnumerable<AnalyzedCharacter> GetMultipleAnalyzedCharacters(char[] characters, string sourceText);
+        AnalysedCharacter GetSingleAnalyzedCharacter(char character, string sourceText);
+        IEnumerable<AnalysedCharacter> GetAllAnalyzedCharacters(string sourceText);
+        IEnumerable<AnalysedCharacter> GetMultipleAnalyzedCharacters(char[] characters, string sourceText);
     }
 }

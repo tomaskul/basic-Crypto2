@@ -1,13 +1,13 @@
 ﻿namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
 {
-    public class AnalyzedCharacter : AnalysedEntity
+    public class AnalysedCharacter : AnalysedEntity
     {
         /// <summary>
         /// Character within source text.
         /// </summary>
         public char Character { get; set; }
         
-        public AnalyzedCharacter(char character)
+        public AnalysedCharacter(char character)
         {
             Character = character;
         }
