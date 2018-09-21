@@ -17,7 +17,6 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
         {
         }
         
-        /// <inheritdoc />
         public char[,] GenerateCipherKey(string key)
         {
             // 1. Remove garbage from the input.
@@ -90,8 +89,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
 
             return incompleteKey;
         }
-
-        /// <inheritdoc />
+        
         public bool IsValidCipherKey(char[,] cipherKey)
         {
             // Ensure that the dimensions match the requirements.
