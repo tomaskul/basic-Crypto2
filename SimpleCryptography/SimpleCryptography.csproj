@@ -64,6 +64,7 @@
     <Compile Include="Ciphers\Playfair Cipher\Digraths\NullableDigrath.cs" />
     <Compile Include="Ciphers\Playfair Cipher\IPlayfairCipher.cs" />
     <Compile Include="Ciphers\Playfair Cipher\Key Management\IPlayfairKeyManagement.cs" />
+    <Compile Include="Ciphers\Playfair Cipher\Key Management\PlayfairKey.cs" />
     <Compile Include="Ciphers\Playfair Cipher\Key Management\PlayfairKeyManagement.cs" />
     <Compile Include="Ciphers\Playfair Cipher\PlayfairCipher.cs" />
     <Compile Include="Ciphers\Playfair Cipher\PlayfairUtil.cs" />
