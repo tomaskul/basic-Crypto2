@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -7,18 +8,17 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digraths
     public class DigrathGenerator : IDigrathGenerator
     {
         private char DigrathFillerCharacter { get; set; }
-
         private IEnumerable<Digraph> Digraths { get; set; }
 
         public DigrathGenerator(char digrathFillerCharacter)
         {
             DigrathFillerCharacter = digrathFillerCharacter;
         }
-        
+
         public IEnumerable<Digraph> GetMessageDigraths(string plainText)
         {
             var digraths = new List<Digraph>();
-            var nullableDigrath = new NullableDigrath();;
+            var nullableDigrath = new NullableDigrath();
 
             for (var i = 0; i < plainText.Length; i++)
             {
@@ -41,19 +41,36 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digraths
                         // consist of two identical characters, use filler to complete current digrath.
                         nullableDigrath.CharacterTwo = DigrathFillerCharacter;
                         digraths.Add(new Digraph(nullableDigrath.CharacterOne.Value, nullableDigrath.CharacterTwo.Value));
-                        nullableDigrath = new NullableDigrath();;
+                        nullableDigrath = new NullableDigrath();
                     }
                 }
                 else
                 {
                     nullableDigrath.CharacterTwo = plainText[i];
                     digraths.Add(new Digraph(nullableDigrath.CharacterOne.Value, nullableDigrath.CharacterTwo.Value));
-                    nullableDigrath = new NullableDigrath();;
+                    nullableDigrath = new NullableDigrath();
                 }
             }
 
             Digraths = digraths;
             return digraths;
+        }
+
+        public IEnumerable<Digraph> GetCipherTextDigraphs(string cipherText)
+        {
+            if (!PlayfairUtil.IsCipherTextValid(cipherText))
+            {
+                throw new ArgumentException("Invalid cipher text.");
+            }
+
+            var digrapths = new List<Digraph>();
+            for (var i = 0; i < cipherText.Length; i += PlayfairUtil.DigrathDenominator)
+            {
+                digrapths.Add(new Digraph(cipherText[i], cipherText[i + 1]));
+            }
+
+            Digraths = digrapths;
+            return digrapths;
         }
 
         /// <summary>
@@ -69,10 +86,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digraths
             foreach (var digraph in Digraths)
             {
                 sb.Append(digraph);
-                if (digraph != Digraths.Last())
-                {
-                    sb.Append(" ");
-                }
+                if (digraph != Digraths.Last()) { sb.Append(" "); }
             }
 
             return sb.ToString();
