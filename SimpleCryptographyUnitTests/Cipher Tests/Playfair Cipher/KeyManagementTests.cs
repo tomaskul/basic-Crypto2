@@ -6,8 +6,7 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
     [TestFixture]
     public class KeyManagementTests
     {
-        private static readonly IPlayfairKeyManagement KeyManagement 
-            = new PlayfairKeyManagement("ABCDEFGHIJKLMNOPRSTUVWXYZ", 'Q');
+        private static readonly IPlayfairKeyManagement KeyManagement = new PlayfairKeyManagement();
         
         #region IsValidCipherKey
 

@@ -11,7 +11,7 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
     public class PlayfairCipherTests
     {
         private static readonly IDigramGenerator DigramGenerator = new DigramGenerator('X');
-        private static readonly IPlayfairKeyManagement KeyManagement = new PlayfairKeyManagement("ABCDEFGHIJKLMNOPRSTUVWXYZ", 'Q');
+        private static readonly IPlayfairKeyManagement KeyManagement = new PlayfairKeyManagement();
         private static readonly IPlayfairCipher Cipher = new PlayfairCipher(DigramGenerator, KeyManagement);
 
         [Test]
