@@ -1,14 +1,14 @@
-﻿namespace SimpleCryptography.Ciphers.Playfair_Cipher
+﻿namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digrams
 {
-    public class NullableDigram
+    public class NullableDigrath
     {
         /// <summary>
-        /// First character within the digram.
+        /// First character within the digrath.
         /// </summary>
         public char? CharacterOne { get; set; } = null;
 
         /// <summary>
-        /// Second character within the digram.
+        /// Second character within the digrath.
         /// </summary>
         public char? CharacterTwo { get; set; } = null;
 

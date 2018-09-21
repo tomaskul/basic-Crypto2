@@ -11,7 +11,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
     {
         private const int CipherGridDimension = 5; // Cipher specifies 5 by 5 grid for the key.
 
-        private readonly IDigramGenerator _digramGenerator;
+        private readonly IDigrathGenerator _digrathGenerator;
         private readonly IPlayfairKeyManagement _keyManagement;
 
         /// <summary>
@@ -19,11 +19,11 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         /// that this implementaton only uses english alphabet and letter 'Q' is being omitted from the
         /// cipher key table. Numbers and special characters are ignored.
         /// </summary>
-        /// <param name="digramGenerator">Digram generator.</param>
+        /// <param name="digrathGenerator">Digram generator.</param>
         /// <param name="playfairKeyManagement">Playfair key management.</param>
-        public PlayfairCipher(IDigramGenerator digramGenerator, IPlayfairKeyManagement playfairKeyManagement)
+        public PlayfairCipher(IDigrathGenerator digrathGenerator, IPlayfairKeyManagement playfairKeyManagement)
         {
-            _digramGenerator = digramGenerator;
+            _digrathGenerator = digrathGenerator;
             _keyManagement = playfairKeyManagement;
         }
 
@@ -37,7 +37,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         {
             var cipherKey = _keyManagement.GenerateCipherKey(key);
             var sanitizedMessage = PlayfairUtil.GetSanitisedString(plainText);
-            var digrams = _digramGenerator.GetMessageDigrams(sanitizedMessage);
+            var digrams = _digrathGenerator.GetMessageDigraths(sanitizedMessage);
 
             return Encrypt(digrams, cipherKey);
         }
@@ -92,7 +92,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
 
         #region Encryption
 
-        private string Encrypt(IEnumerable<Digram> digrams, char[,] cipherKey)
+        private string Encrypt(IEnumerable<Digraph> digrams, char[,] cipherKey)
         {
             var sb = new StringBuilder(string.Empty);
 

@@ -1,18 +1,18 @@
 ﻿namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digrams
 {
-    public class Digram
+    public class Digraph
     {
         /// <summary>
-        /// First character within the digram.
+        /// First character within the digrath.
         /// </summary>
         public char CharacterOne { get; private set; }
 
         /// <summary>
-        /// Second character within the digram.
+        /// Second character within the digrath.
         /// </summary>
         public char CharacterTwo { get; private set; }
 
-        public Digram(char characterOne, char characterTwo)
+        public Digraph(char characterOne, char characterTwo)
         {
             CharacterOne = characterOne;
             CharacterTwo = characterTwo;
