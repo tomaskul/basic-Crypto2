@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SimpleCryptography.Ciphers.Playfair_Cipher;
+using SimpleCryptography.Ciphers.Playfair_Cipher.Digrams;
 
 namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
 {

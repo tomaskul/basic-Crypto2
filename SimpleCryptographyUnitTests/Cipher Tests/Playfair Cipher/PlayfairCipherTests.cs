@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using SimpleCryptography.Ciphers.Playfair_Cipher;
+using SimpleCryptography.Ciphers.Playfair_Cipher.Digrams;
 using SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management;
 
 namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
