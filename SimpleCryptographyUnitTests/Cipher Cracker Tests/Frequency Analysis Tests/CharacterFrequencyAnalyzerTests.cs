@@ -49,11 +49,11 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         public void GetSingleAnalyzedCharacter_CorrectFrequency(char character, string sourceText,
             decimal expectedFrequency, int decimalPlaceDelta)
         {
-            var frequencyAnalyser = new CharFrequencyAnalyzer(decimalPlaceDelta);
+            var frequencyAnalyser = new CharFrequencyAnalyzer();
             
             var actual = frequencyAnalyser.GetSingleAnalyzedCharacter(character, sourceText);
             
-            Assert.AreEqual(expectedFrequency, actual.Frequency);
+            Assert.AreEqual(expectedFrequency, decimal.Round(actual.Frequency, decimalPlaceDelta));
         }        
 
         #endregion

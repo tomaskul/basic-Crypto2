@@ -6,21 +6,8 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
 {
     public class CharFrequencyAnalyzer : ICharFrequencyAnalyzer
     {
-        private readonly int _frequencyDecimalPlaces = 0;
-        private const int PercentageDelta = 100; // Makes reading the percentages easier.
-        
         public CharFrequencyAnalyzer()
         {
-        }
-
-        public CharFrequencyAnalyzer(int frequencyDecimalPlaces)
-        {
-            if (frequencyDecimalPlaces <= 0)
-            {
-                throw new ArgumentOutOfRangeException("Invalid decimal place value.");
-            }
-            
-            _frequencyDecimalPlaces = frequencyDecimalPlaces;
         }
         
         public AnalysedCharacter GetSingleAnalyzedCharacter(char character, string sourceText)
@@ -34,37 +21,10 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
                     targetCharacter.OccurenceCount++;
                 }
             }
-
-            targetCharacter.Frequency = GetCharacterFrequency(targetCharacter.OccurenceCount, sourceText.Length);
+            
+            targetCharacter.CalculateFrequency(sourceText.Length);
             
             return targetCharacter;
-        }
-
-        /// <summary>
-        /// Calculates the percentage of total character count, that a single character composes.
-        /// </summary>
-        /// <param name="occurenceCount">Number of character occurances within source text.</param>
-        /// <param name="totalCharacterCount">Length of source text.</param>
-        /// <returns>Frequency percentage</returns>
-        /// <exception cref="ArgumentOutOfRangeException"><c>totalCharacterCount</c> is below or
-        /// equal to zero.</exception>
-        private decimal GetCharacterFrequency(int occurenceCount, int totalCharacterCount)
-        {
-            // Avoid division by zero exception
-            if (totalCharacterCount <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(totalCharacterCount));
-            }
-
-            var frequency = (Convert.ToDecimal(occurenceCount) / Convert.ToDecimal(totalCharacterCount))
-                            * PercentageDelta;
-
-            if (_frequencyDecimalPlaces > 0)
-            {
-                frequency = Math.Round(frequency, _frequencyDecimalPlaces);
-            }
-
-            return frequency;
         }
 
         /// <summary>
@@ -104,22 +64,15 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
             // state of every character is now known.
             foreach (var character in uniqueCharacters)
             {
-                character.Value.Frequency = GetCharacterFrequency(character.Value.OccurenceCount, sourceText.Length);
+                character.Value.CalculateFrequency(sourceText.Length);
                 yield return character.Value;
             }
         }
 
         public IEnumerable<AnalysedCharacter> GetMultipleAnalyzedCharacters(char[] characters, string sourceText)
         {
-            if (characters.Length == 0)
-            {
-                throw new ArgumentNullException(nameof(characters));
-            }
-
-            if (string.IsNullOrEmpty(sourceText))
-            {
-                throw new ArgumentNullException(nameof(sourceText));
-            }
+            if (characters.Length == 0) { throw new ArgumentNullException(nameof(characters)); }
+            if (string.IsNullOrEmpty(sourceText)) { throw new ArgumentNullException(nameof(sourceText)); }
             
             var analyzedCharacters = characters.ToDictionary(selectedCharacter => 
                 selectedCharacter, selectedCharacter => new AnalysedCharacter(selectedCharacter));
@@ -134,7 +87,7 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
 
             foreach (var character in analyzedCharacters)
             {
-                character.Value.Frequency = GetCharacterFrequency(character.Value.OccurenceCount, sourceText.Length);
+                character.Value.CalculateFrequency(sourceText.Length);
                 yield return character.Value;
             }
         }
