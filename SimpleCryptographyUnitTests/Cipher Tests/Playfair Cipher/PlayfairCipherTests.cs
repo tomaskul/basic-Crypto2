@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using SimpleCryptography.Ciphers.Playfair_Cipher;
-using SimpleCryptography.Ciphers.Playfair_Cipher.Digrams;
+using SimpleCryptography.Ciphers.Playfair_Cipher.Digraths;
 using SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management;
 
 namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
@@ -11,9 +11,9 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
     [TestFixture]
     public class PlayfairCipherTests
     {
-        private static readonly IDigramGenerator DigramGenerator = new DigramGenerator('X');
+        private static readonly IDigrathGenerator DigrathGenerator = new DigrathGenerator('X');
         private static readonly IPlayfairKeyManagement KeyManagement = new PlayfairKeyManagement();
-        private static readonly IPlayfairCipher Cipher = new PlayfairCipher(DigramGenerator, KeyManagement);
+        private static readonly IPlayfairCipher Cipher = new PlayfairCipher(DigrathGenerator, KeyManagement);
 
         [Test]
         [TestCase("", "Hello")]
