@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,6 +35,23 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             }
 
             return sb.ToString();
+        }
+
+        public static bool IsValidCipherText(string cipherText)
+        {
+            // Not permitted: empty strings, non-alphabetic characters (i.e. special characters, numbers),
+            // omited character, non-upper case letters.
+            if (string.IsNullOrWhiteSpace(cipherText) 
+                || cipherText.Any(c => !char.IsLetter(c) || !char.IsUpper(c) || c == OmittedCharacter))
+            {
+                return false;
+            }
+            // Since the cipher text is constructed from digrams, the length is always an even number.
+            if (cipherText.Length % 2 != 0) { return false; }
+
+
+
+            return true;
         }
     }
 }
