@@ -7,6 +7,12 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
 {
     public static class PlayfairUtil
     {
+        /// <summary>
+        /// Digraphs are composed in multiples of 2, which means the value bears significant importance when dealing
+        /// with this cipher.
+        /// </summary>
+        public static int DigrathDenominator => 2;
+
         private const string AlphabetRegexPattern = @"[a-pr-zA-PR-Z]";
         private const char OmittedCharacter = 'Q';
         
@@ -47,7 +53,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
                 return false;
             }
             // Since the cipher text is constructed from digrams, the length is always an even number.
-            if (cipherText.Length % 2 != 0) { return false; }
+            if (cipherText.Length % DigrathDenominator != 0) { return false; }
             
             // If none of the conditions are broken then the cipher text is valid.
             return true;
