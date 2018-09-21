@@ -12,16 +12,16 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
         private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
         private const char OmittedCharacter = 'Q';
         private const int CipherGridDimension = 5;
-        
+
         public PlayfairKeyManagement()
         {
         }
-        
+
         public char[,] GenerateCipherKey(string key)
         {
             // 1. Remove garbage from the input.
             var sanitisedKey = GetSanitisedKey(PlayfairUtil.GetSanitisedString(key));
-            
+
             // 2. Get complete key string.
             var keyString = sanitisedKey.Length == Alphabet.Length
                 ? sanitisedKey
@@ -40,7 +40,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
 
             return cipherKey;
         }
-        
+
         /// <summary>
         /// Gets the sanitised key for fundamental encryption/decryption part of the algorithm.
         /// </summary>
@@ -71,7 +71,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
 
             return sanitizedKey;
         }
-        
+
         /// <summary>
         /// Adds missing letters to the sanitized key in order to complete the cipher key.
         /// </summary>
@@ -89,7 +89,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
 
             return incompleteKey;
         }
-        
+
         public bool IsValidCipherKey(char[,] cipherKey)
         {
             // Ensure that the dimensions match the requirements.
@@ -104,10 +104,13 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
             {
                 for (var column = 0; column < CipherGridDimension; column++)
                 {
-                    var currentCharacter = cipherKey[row, column]; 
-                    
+                    var currentCharacter = cipherKey[row, column];
+
                     // Only letters are allowed.
-                    if (!char.IsLetter(currentCharacter) || !Alphabet.Contains(currentCharacter)) { return false; }
+                    if (!char.IsLetter(currentCharacter) || !Alphabet.Contains(currentCharacter))
+                    {
+                        return false;
+                    }
 
                     // Only unique, non-omitted letters allowed.
                     if (cipherKeyString.Contains(currentCharacter) || OmittedCharacter.Equals(currentCharacter))
@@ -116,7 +119,6 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
                     }
 
                     cipherKeyString += currentCharacter;
-
                 }
             }
 
