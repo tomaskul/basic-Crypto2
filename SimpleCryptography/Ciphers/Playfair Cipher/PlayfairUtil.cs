@@ -37,7 +37,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             return sb.ToString();
         }
 
-        public static bool IsValidCipherText(string cipherText)
+        public static bool IsCipherTextValid(string cipherText)
         {
             // Not permitted: empty strings, non-alphabetic characters (i.e. special characters, numbers),
             // omited character, non-upper case letters.
@@ -48,9 +48,8 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             }
             // Since the cipher text is constructed from digrams, the length is always an even number.
             if (cipherText.Length % 2 != 0) { return false; }
-
-
-
+            
+            // If none of the conditions are broken then the cipher text is valid.
             return true;
         }
     }
