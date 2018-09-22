@@ -58,7 +58,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digraths
 
         public IEnumerable<Digraph> GetCipherTextDigraphs(string cipherText)
         {
-            if (!PlayfairUtil.IsCipherTextValid(cipherText))
+            if (!PlayfairUtil.IsValidCipherText(cipherText))
             {
                 throw new ArgumentException("Invalid cipher text.");
             }

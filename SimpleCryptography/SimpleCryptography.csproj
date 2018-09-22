@@ -48,7 +48,7 @@
     <Compile Include="CipherCrackers\FrequencyAnalysis\AnalysedCharacter.cs" />
     <Compile Include="CipherCrackers\FrequencyAnalysis\CharFrequencyAnalyzer.cs" />
     <Compile Include="CipherCrackers\FrequencyAnalysis\ICharFrequencyAnalyzer.cs" />
-    <Compile Include="CipherCrackers\Playfair\AnalysedDigram.cs" />
+    <Compile Include="CipherCrackers\Playfair\AnalysedDigrath.cs" />
     <Compile Include="CipherCrackers\Playfair\IPlayfairAnalyser.cs" />
     <Compile Include="CipherCrackers\Playfair\PlayfairAnalyser.cs" />
     <Compile Include="CipherCrackers\Playfair\ReplacementDigrams.cs" />

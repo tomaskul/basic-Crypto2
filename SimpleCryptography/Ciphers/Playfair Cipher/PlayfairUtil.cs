@@ -43,7 +43,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             return sb.ToString();
         }
 
-        public static bool IsCipherTextValid(string cipherText)
+        public static bool IsValidCipherText(string cipherText)
         {
             // Not permitted: empty strings, non-alphabetic characters (i.e. special characters, numbers),
             // omited character, non-upper case letters.
