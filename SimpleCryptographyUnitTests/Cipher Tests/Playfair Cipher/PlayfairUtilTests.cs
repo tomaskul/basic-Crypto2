@@ -11,7 +11,7 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
         [TestCase("BMNDZBXDKYBEJVDMUIXMMNUVIF")]
         public void IsCipherTextValid_ValidCipherText_IsTrue(string cipherText)
         {
-            Assert.IsTrue(PlayfairUtil.IsCipherTextValid(cipherText));
+            Assert.IsTrue(PlayfairUtil.IsValidCipherText(cipherText));
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
         [TestCase("BMNDZBX")]
         public void IsCipherTextValid_InvalidCipherText_IsFalse(string cipherText)
         {
-            Assert.IsFalse(PlayfairUtil.IsCipherTextValid(cipherText));
+            Assert.IsFalse(PlayfairUtil.IsValidCipherText(cipherText));
         }
     }
 }
