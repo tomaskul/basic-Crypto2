@@ -37,6 +37,26 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
             Assert.Throws<InvalidOperationException>(() => Cipher.EncryptMessage("msg", "abcdefghijklmnoprstuvwxyz"));
         }
 
+        [Test]
+        [TestCase("Hide the gold in the tree stump", "PLAYFIREXMBCDGHJKNOSTUVWZ", "BMNDZBXDKYBEJVDMUIXMMNUVIF")]
+        public void Encrypt_IsExpectedCipherText_AreEqual(string plainText, string cipherKey, string expectedCipherText)
+        {
+            Assert.AreEqual(expectedCipherText, Cipher.EncryptMessage(plainText, new PlayfairKey
+            {
+                Value = cipherKey
+            }));
+        }
+
+        [Test]
+        [TestCase("BMNDZBXDKYBEJVDMUIXMMNUVIF", "PLAYFIREXMBCDGHJKNOSTUVWZ", "hidethegoldinthetrexestump")]
+        public void Decrypt_IsExpectedPlainText_AreEqual(string cipherText, string cipherKey, string expectedPlainText)
+        {
+            Assert.AreEqual(expectedPlainText, Cipher.DecryptMessage(cipherText, new PlayfairKey
+            {
+                Value = cipherKey
+            }));
+        }
+
         #region Regex tests
 
         private const string _acceptablePattern = "[a-pr-zA-PR-Z]";
