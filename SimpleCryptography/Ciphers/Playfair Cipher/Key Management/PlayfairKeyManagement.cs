@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -11,34 +12,23 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
     {
         private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
         private const char OmittedCharacter = 'Q';
-        private const int CipherGridDimension = 5;
 
         public PlayfairKeyManagement()
         {
         }
 
-        public char[,] GenerateCipherKey(string key)
+        public PlayfairKey GenerateCipherKey(string memorableKey)
         {
-            // 1. Remove garbage from the input.
-            var sanitisedKey = GetSanitisedKey(PlayfairUtil.GetSanitisedString(key));
+            // Filter out all the unnecessary/redundant/unsupported characters.
+            var sanitisedKey = GetSanitisedKey(PlayfairUtil.GetSanitisedString(memorableKey));
 
-            // 2. Get complete key string.
-            var keyString = sanitisedKey.Length == Alphabet.Length
-                ? sanitisedKey
-                : GetCompleteCipherKey(sanitisedKey);
-
-            var cipherKey = new char[CipherGridDimension, CipherGridDimension];
-            var counter = 0;
-            for (var i = 0; i < CipherGridDimension; i++)
+            return new PlayfairKey
             {
-                for (var j = 0; j < CipherGridDimension; j++)
-                {
-                    cipherKey[i, j] = keyString[counter];
-                    counter++;
-                }
-            }
-
-            return cipherKey;
+                // If necessary amount of characters is present then key is done, alternatively fill in missing values.
+                Value = sanitisedKey.Length == Alphabet.Length
+                    ? sanitisedKey
+                    : GetCompleteCipherKey(sanitisedKey)
+            };
         }
 
         /// <summary>
@@ -54,7 +44,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
             {
                 // Only record; Unique Alphabet characters.
                 if (!sb.ToString().Any(c => c.Equals(character))
-                    && !character.Equals('Q') && Alphabet.Contains(character))
+                    && !character.Equals(OmittedCharacter) && Alphabet.Contains(character))
                 {
                     sb.Append(character);
                 }
@@ -79,51 +69,45 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
         /// <returns>Playfair cipher key.</returns>
         private static string GetCompleteCipherKey(string incompleteKey)
         {
+            var sb = new StringBuilder(incompleteKey);
+            
             foreach (var letter in Alphabet)
             {
                 if (!incompleteKey.Contains(letter))
                 {
-                    incompleteKey += letter;
+                    sb.Append(letter);
                 }
             }
 
-            return incompleteKey;
+            return sb.ToString();
         }
 
-        public bool IsValidCipherKey(char[,] cipherKey)
+        public bool IsValidCipherKey(PlayfairKey cipherKey)
         {
-            // Ensure that the dimensions match the requirements.
-            if (cipherKey.Rank != 2 || cipherKey.GetLength(0) != CipherGridDimension ||
-                cipherKey.GetLength(1) != CipherGridDimension)
+            if (cipherKey == null 
+                || string.IsNullOrWhiteSpace(cipherKey.Value)
+                || cipherKey.Value.Equals(Alphabet)
+                || cipherKey.Value.Contains(OmittedCharacter)
+                || cipherKey.Value.Length != Alphabet.Length
+                || !cipherKey.Value.Equals(PlayfairUtil.GetSanitisedString(cipherKey.Value))
+                || cipherKey.Value.Any(c => !char.IsLetter(c) || !char.IsUpper(c)))
             {
                 return false;
             }
 
-            var cipherKeyString = string.Empty;
-            for (var row = 0; row < CipherGridDimension; row++)
+            // Once every other condition is met, need to ensure all characters are unique.
+            var observedCharacters = new HashSet<char>();
+            foreach (var character in cipherKey.Value)
             {
-                for (var column = 0; column < CipherGridDimension; column++)
+                if (observedCharacters.Contains(character))
                 {
-                    var currentCharacter = cipherKey[row, column];
-
-                    // Only letters are allowed.
-                    if (!char.IsLetter(currentCharacter) || !Alphabet.Contains(currentCharacter))
-                    {
-                        return false;
-                    }
-
-                    // Only unique, non-omitted letters allowed.
-                    if (cipherKeyString.Contains(currentCharacter) || OmittedCharacter.Equals(currentCharacter))
-                    {
-                        return false;
-                    }
-
-                    cipherKeyString += currentCharacter;
+                    return false;
                 }
+
+                observedCharacters.Add(character);
             }
 
-            // Cipher key generation prevents the key from being same as the alphabet.
-            return !cipherKeyString.Equals(Alphabet);
+            return true;
         }
     }
 }
