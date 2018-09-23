@@ -3,12 +3,12 @@
     public class Digraph
     {
         /// <summary>
-        /// First character within the digrath.
+        /// First character within the digraph.
         /// </summary>
         public char CharacterOne { get; private set; }
 
         /// <summary>
-        /// Second character within the digrath.
+        /// Second character within the digraph.
         /// </summary>
         public char CharacterTwo { get; private set; }
 
@@ -20,7 +20,7 @@
 
         public override string ToString()
         {
-            return $"'{CharacterOne}{CharacterTwo}'"; 
+            return $"{CharacterOne}{CharacterTwo}"; 
         }
     }
 }
