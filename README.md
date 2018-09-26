@@ -6,7 +6,7 @@ Also, I'm working through the challenges posed at the back of "The Code Book: Th
 ## To implement (in no specific order)
 
 - [x] Vignere square
-- [ ] Playfair
+- [x] Playfair
 - [ ] ADFGVX
 - [ ] Generic RSA
 - [ ] RSA-1024
