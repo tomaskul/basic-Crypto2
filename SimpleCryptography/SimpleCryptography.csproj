@@ -56,6 +56,7 @@
     <Compile Include="Ciphers\ADFGVX\Key Management\IAdfgvxKeyManagement.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\CaesarShiftCipher.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\ICaesarShiftCipher.cs" />
+    <Compile Include="Ciphers\Generic\IGenericCipher.cs" />
     <Compile Include="Ciphers\Generic\Key Management\BaseCipherKey.cs" />
     <Compile Include="Ciphers\Generic\Key Management\ICipherKeyManagement.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\IMonoalphabeticSubstitutionCipher.cs" />
