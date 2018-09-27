@@ -9,9 +9,7 @@ Also, I'm working through the challenges posed at the back of "The Code Book: Th
 - [x] Playfair
 - [ ] ADFGVX
 - [ ] Generic RSA
-- [ ] RSA-1024
-- [ ] RSA-2048
-- [ ] ADFGVX
+- [ ] RSA-1024 / RSA-2048
 - [ ] AES
 
 ## Potentially
