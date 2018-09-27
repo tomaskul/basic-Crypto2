@@ -1,9 +1,11 @@
-﻿namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
+﻿using SimpleCryptography.Ciphers.Generic.Key_Management;
+
+namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
 {   
     /// <summary>
     /// Playfair cipher key.
     /// </summary>
-    public class PlayfairKey
+    public class PlayfairKey : BaseCipherKey
     {
         /// <summary>
         /// Playfair cipher key value.

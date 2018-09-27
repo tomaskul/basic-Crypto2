@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -53,6 +53,8 @@
     <Compile Include="CipherCrackers\Playfair\PlayfairAnalyser.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\CaesarShiftCipher.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\ICaesarShiftCipher.cs" />
+    <Compile Include="Ciphers\Generic\Key Management\BaseCipherKey.cs" />
+    <Compile Include="Ciphers\Generic\Key Management\ICipherKeyManagement.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\IMonoalphabeticSubstitutionCipher.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionCipher.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionKey.cs" />
