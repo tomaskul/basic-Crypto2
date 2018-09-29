@@ -60,6 +60,7 @@
     <Compile Include="Ciphers\ADFGVX\Key Management\AdfgvxKey.cs" />
     <Compile Include="Ciphers\ADFGVX\Key Management\AdfgvxKeyManagement.cs" />
     <Compile Include="Ciphers\ADFGVX\Key Management\IAdfgvxKeyManagement.cs" />
+    <Compile Include="Ciphers\Caesar Shift Cipher\CaesarCipherKey.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\CaesarShiftCipher.cs" />
     <Compile Include="Ciphers\Caesar Shift Cipher\ICaesarShiftCipher.cs" />
     <Compile Include="Ciphers\Generic\IGenericCipher.cs" />

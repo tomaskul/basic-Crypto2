@@ -9,8 +9,8 @@ namespace SimpleCryptography.Ciphers.Caesar_Shift_Cipher
         public CaesarShiftCipher()
         {
         }
-
-        public string EncryptMessage(string plainText, string alphabet, int shift)
+        
+        public string EncryptMessage(string plainText, CaesarCipherKey cipherKey)
         {
             if (string.IsNullOrWhiteSpace(plainText)) { throw new ArgumentNullException(nameof(plainText)); }
 
@@ -18,24 +18,26 @@ namespace SimpleCryptography.Ciphers.Caesar_Shift_Cipher
 
             foreach (var character in plainText.ToUpper())
             {
-                if (!alphabet.Contains(character.ToString()))
+                if (!cipherKey.Alphabet.Contains(character.ToString()))
                 {
                     sb.Append(character);
                     continue;
                 }
 
-                var encryptedCharacterIndex = (alphabet.IndexOf(character) + shift) % alphabet.Length;
-                
+                var encryptedCharacterIndex = (cipherKey.Alphabet.IndexOf(character) + cipherKey.Shift) %
+                                              cipherKey.Alphabet.Length;
+
                 char encryptedCharacter;
 
                 if (encryptedCharacterIndex >= 0)
                 {
-                    encryptedCharacter = alphabet[encryptedCharacterIndex];
+                    encryptedCharacter = cipherKey.Alphabet[encryptedCharacterIndex];
                 }
                 else
                 {
-                    var adjustedIndex = alphabet.Length + (encryptedCharacterIndex % - alphabet.Length);
-                    encryptedCharacter = alphabet.ElementAt(adjustedIndex);
+                    var adjustedIndex = cipherKey.Alphabet.Length +
+                                        (encryptedCharacterIndex % -cipherKey.Alphabet.Length);
+                    encryptedCharacter = cipherKey.Alphabet.ElementAt(adjustedIndex);
                 }
 
                 sb.Append(encryptedCharacter);
@@ -44,9 +46,10 @@ namespace SimpleCryptography.Ciphers.Caesar_Shift_Cipher
             return sb.ToString();
         }
 
-        public string DecryptMessage(string cipherText, string alphabet, int shift)
+        public string DecryptMessage(string cipherText, CaesarCipherKey cipherKey)
         {
-            return EncryptMessage(cipherText, alphabet, -shift).ToLower();
+            cipherKey.Shift = -cipherKey.Shift;
+            return EncryptMessage(cipherText, cipherKey).ToLower();
         }
     }
 }

@@ -15,14 +15,22 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Caesar_Shift_Cipher
         [TestCase("I missed second question", EngAlphabetMissingLetters, 4, "I RISSEJ SEHUTJ QYESXIUT")]
         public void Encrypt_ValidInputs_AreEqual(string plainText, string alphabet, int shift, string expected)
         {
-            Assert.AreEqual(expected, Cipher.EncryptMessage(plainText, alphabet, shift));
+            Assert.AreEqual(expected, Cipher.EncryptMessage(plainText, new CaesarCipherKey
+            {
+                Alphabet = alphabet,
+                Shift = shift
+            }));
         }
 
         [Test]
         [TestCase("JHUJLS AOL MSPNOA", EnglishAlphabet, 7, "cancel the flight")]
         public void Decrypt_ValidInputs_AreEqual(string cipherText, string alphabet, int shift, string expected)
         {
-            Assert.AreEqual(expected, Cipher.DecryptMessage(cipherText, alphabet, shift));
+            Assert.AreEqual(expected, Cipher.DecryptMessage(cipherText, new CaesarCipherKey
+            {
+                Alphabet = alphabet,
+                Shift = shift
+            }));
         }
     }
 }
