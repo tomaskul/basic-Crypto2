@@ -2,105 +2,149 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using SimpleCryptography.Ciphers.Caesar_Shift_Cipher;
 
 namespace SimpleCryptography.Ciphers.Vigenere_Cipher
 {
+    /// <summary>
+    /// Vigenere cipher. This implementation strictly utilizes the English alphabet.
+    /// </summary>
     public class VigenereCipher : IVigenereCipher
     {
+        private const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string RegexAlphabetPattern = "[a-zA-Z]";
         private static readonly CaesarShiftCipher CaesarShiftCipher = new CaesarShiftCipher();
 
         public VigenereCipher()
         {
         }
-
-        public string EncryptMessage(string plainText, string alphabet, string key)
+        
+        public string EncryptMessage(string plainText, VigenereKey cipherKey)
         {
-            ThrowIfParametersAreInvalid(plainText, alphabet, key);
+            // Nothing to encrypt.
+            if (!DoesInputContainAlphabeticalCharacters(plainText)) { return string.Empty; }
 
             var sb = new StringBuilder(string.Empty);
-            var encryptionAlphabets = GetEncryptionAlphabets(alphabet, key);
 
-            alphabet = alphabet.ToUpper();
-            key = key.ToUpper();
+            var cipherAlphabets = GetCipherAlphabets(cipherKey.MemorableKey);
             var keyIndex = 0;
 
-            foreach (var character in plainText.ToUpper())
+            foreach (var plainTextCharacter in plainText.ToUpper())
             {
-                if (!alphabet.Contains(character))
+                // Append special characters
+                if (!IsAlphabeticalCharacter(plainTextCharacter))
                 {
-                    sb.Append(character);
+                    sb.Append(plainTextCharacter);
                     continue;
                 }
 
-                var multiAlphabetIndex = keyIndex % key.Length;
-                var currentAlphabet = encryptionAlphabets.First(a => a.First().Equals(key[multiAlphabetIndex]));
+                var multiAlphabetIndex = keyIndex % cipherKey.MemorableKey.Length;
+                var currentAlphabet = cipherAlphabets
+                    .First(a => a.First().Equals(cipherKey.MemorableKey[multiAlphabetIndex]));
 
-                sb.Append(currentAlphabet[alphabet.IndexOf(character)]);
-                    
-                // Possibly excesive, but prevents keyIndex from overflowing when encrypting huge messages.
-                keyIndex = keyIndex == (key.Length - 1) ? 0 : keyIndex + 1;
+                sb.Append(currentAlphabet[Alphabet.IndexOf(plainTextCharacter)]);
+
+                // Prevent keyIndex from overflowing.
+                keyIndex = GetUpdatedKeyIndex(keyIndex, cipherKey.MemorableKey);
             }
 
             return sb.ToString();
         }
 
-        public string DecryptMessage(string cipherText, string alphabet, string key)
+        public string DecryptMessage(string cipherText, VigenereKey cipherKey)
         {
-            ThrowIfParametersAreInvalid(cipherText, alphabet, key);
-
+            // Nothing to decrypt.
+            if (!DoesInputContainAlphabeticalCharacters(cipherText)) { return string.Empty; }
+            
+            // Valid Vigenere cipher text (at least within this implementation) will contain only upper case letters
+            // and special characters. Therefore any lower case letters render message invalid. Do not continue.
+            if (cipherText.Where(char.IsLetter).Any(char.IsLower))
+            {
+                throw new InvalidOperationException("Invalid cipher text.");
+            }
+            
             var sb = new StringBuilder(string.Empty);
-            var encryptionAlphabets = GetEncryptionAlphabets(alphabet, key);
-
+            
+            var cipherAlphabets = GetCipherAlphabets(cipherKey.MemorableKey);
             var keyIndex = 0;
 
-            foreach (var character in cipherText.ToUpper())
+            foreach (var encryptedCharacter in cipherText)
             {
-                if (!alphabet.Contains(character))
+                // Append special characters.
+                if (!IsAlphabeticalCharacter(encryptedCharacter))
                 {
-                    sb.Append(character);
+                    sb.Append(encryptedCharacter);
                     continue;
                 }
                 
-                var multiAlphabetIndex = keyIndex % key.Length;
-                var currentAlphabet = encryptionAlphabets.First(a => a.First().Equals(key[multiAlphabetIndex]));
-
-                sb.Append(alphabet[currentAlphabet.IndexOf(character)]);
-
-                // Possibly excesive, but prevents keyIndex from overflowing when encrypting huge messages.
-                keyIndex = keyIndex == (key.Length - 1) ? 0 : keyIndex + 1;
+                var multiAlphabetIndex = keyIndex % cipherKey.MemorableKey.Length;
+                var currentAlphabet = cipherAlphabets
+                    .First(a => a.First().Equals(cipherKey.MemorableKey[multiAlphabetIndex]));
+                
+                sb.Append(currentAlphabet[Alphabet.IndexOf(encryptedCharacter)]);
+                
+                // Prevent keyIndex from overflowing.
+                keyIndex = GetUpdatedKeyIndex(keyIndex, cipherKey.MemorableKey);
             }
-
+            
             return sb.ToString().ToLower();
         }
 
+
         /// <summary>
-        /// Pre encryption/decryption parameter validity check. If any of the preconditions required for
-        /// encryption/decryption to execute successfully aren't met, this method will throw an exception.
+        /// Determines whether the supplied cipher text/plain text contains alphabetical characters and therefore
+        /// whether it's possible to encrypt or decrypt the input. 
         /// </summary>
-        /// <param name="message">Message to encrypt/decrypt.</param>
-        /// <param name="alphabet">Alphabet used during encryption/decryption.</param>
-        /// <param name="key">Encryption/Decryption key.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        private void ThrowIfParametersAreInvalid(string message, string alphabet, string key)
+        /// <param name="cipherOrPlainText">Cipher/Plain text input.</param>
+        /// <returns><c>true</c>If input is alphabetical; otherwise <c>false</c>.</returns>
+        private static bool DoesInputContainAlphabeticalCharacters(string cipherOrPlainText)
         {
-            if (string.IsNullOrWhiteSpace(message)) { throw new ArgumentNullException(nameof(message)); }
-            if (string.IsNullOrWhiteSpace(alphabet)) { throw new ArgumentNullException(nameof(alphabet)); }
-            if (string.IsNullOrWhiteSpace(key)) { throw new ArgumentNullException(nameof(key)); }
+            var regex = new Regex(RegexAlphabetPattern);
+            var matches = regex.Matches(cipherOrPlainText, 0);
+            return matches.Count != 0;
         }
 
         /// <summary>
-        /// Gets all the alphabets involved in the encryption for a specified key.
+        /// Determines whether the specified character is a member of the alphabet.
         /// </summary>
-        /// <param name="alphabet">The alphabet used for encryption.</param>
-        /// <param name="key">Encryption key.</param>
-        /// <returns></returns>
-        private static List<string> GetEncryptionAlphabets(string alphabet, string key)
+        /// <param name="character">Character to evaluate.</param>
+        /// <returns><c>true</c> if character is within the alphabet; otherwise <c>false</c>.</returns>
+        private static bool IsAlphabeticalCharacter(char character)
         {
-            return alphabet
-                .Select((t, i) => CaesarShiftCipher.EncryptMessage(alphabet, alphabet, i))
-                .Where(offset => key.Any(c => c.Equals(offset.First())))
+            var regex = new Regex(RegexAlphabetPattern);
+            var matches = regex.Matches(character.ToString(), 0);
+            return matches.Count != 0;
+        }
+
+        /// <summary>
+        /// Gets all the alphabets involved in the encryption/decryption for a specified key.
+        /// </summary>
+        /// <param name="memorableKey">Memorable cipher key.</param>
+        /// <returns></returns>
+        private static List<string> GetCipherAlphabets(string memorableKey)
+        {
+            return Alphabet
+                .Select((t, i) =>
+                    CaesarShiftCipher.EncryptMessage(Alphabet, new CaesarCipherKey
+                    {
+                        Alphabet = Alphabet,
+                        Shift = i
+                    }))
+                .Where(offset => memorableKey.Any(c => c.Equals(offset.First())))
                 .ToList();
+        }
+
+        /// <summary>
+        /// Incrememnts or resets key index value, doing this will prevent this value from overflowing when
+        /// encrypting/decrypting huge messages.
+        /// </summary>
+        /// <param name="currentKeyIndex"></param>
+        /// <param name="memorableKey"></param>
+        /// <returns></returns>
+        private static int GetUpdatedKeyIndex(int currentKeyIndex, string memorableKey)
+        {
+            return currentKeyIndex == (memorableKey.Length - 1) ? 0 : currentKeyIndex + 1;
         }
     }
 }

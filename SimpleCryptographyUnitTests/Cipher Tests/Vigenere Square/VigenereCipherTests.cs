@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SimpleCryptography.Ciphers.Vigenere_Cipher;
 
 namespace SimpleCryptographyUnitTests.Cipher_Tests.Vigenere_Square
@@ -8,23 +7,28 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Vigenere_Square
     public class VigenereCipherTests
     {
         private static readonly VigenereCipher Cipher = new VigenereCipher();
-        private const string EnglishAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+        
         [Test]
-        [TestCase("", EnglishAlphabet, "HI")]
-        [TestCase("Message", "", "BILL")]
-        [TestCase("Hide your gold", EnglishAlphabet, "")]
-        public void EncryptMessage_InvalidParams_ThrowsArgumentNullException(string plainText, string alphabet, string key)
+        [TestCase("", "HI")]
+        [TestCase("Message to encrypt", "")]
+        [TestCase("", "")]
+        public void EncryptMessage_InvalidParams_EmptyString(string plainText, string memorableKey)
         {
-            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage(plainText, alphabet, key));
+            Assert.AreEqual(string.Empty, Cipher.EncryptMessage(plainText, new VigenereKey
+            {
+                MemorableKey = memorableKey
+            }));
         }
 
         [Test]
         [TestCase("Call me", "NOSE", "PODP ZS")]
         [TestCase("thesunandthemaninthemoon", "KING", "DPRYEVNTNBUKWIAOXBUKWWBT")]
-        public void EncryptMessage_ValidParams_EncryptedMessage(string plainText, string key, string expected)
+        public void EncryptMessage_ValidInput_AreEqual(string plainText, string memorableKey, string expected)
         {
-            Assert.AreEqual(expected, Cipher.EncryptMessage(plainText, EnglishAlphabet, key));
+            Assert.AreEqual(expected, Cipher.EncryptMessage(plainText, new VigenereKey
+            {
+                MemorableKey = memorableKey
+            }));
         }
     }
 }
