@@ -24,6 +24,7 @@ namespace SimpleCryptography.Ciphers.Vigenere_Cipher
         {
             // Nothing to encrypt.
             if (!DoesInputContainAlphabeticalCharacters(plainText)) { return string.Empty; }
+            if (!DoesInputContainAlphabeticalCharacters(cipherKey.MemorableKey)) { return string.Empty; }
 
             var sb = new StringBuilder(string.Empty);
 

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SimpleCryptography.Ciphers.Generic.Key_Management;
+﻿using SimpleCryptography.Ciphers.Generic.Key_Management;
 
 namespace SimpleCryptography.Ciphers.Vigenere_Cipher
 {
@@ -8,7 +7,6 @@ namespace SimpleCryptography.Ciphers.Vigenere_Cipher
         /// <summary>
         /// The memorable key.
         /// </summary>
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Invalid memorable key")]
         public string MemorableKey { get; set; }
     }
 }
