@@ -1,7 +1,7 @@
 # basic-Crypto2
-Broken-frankenstein-monster, basic cipher implementations for no other purpose than helping me further my understanding of cryptography as a whole (will catch up to modern times in due time).
+Basic cipher implementations to further my understanding of cryptography as a whole. Project is working in somewhat chronological order, might catch up to modern standards at some point.
 
-Also, I'm working through the challenges posed at the back of "The Code Book: The Science of Secrecy from Ancient Egypt to Quantum Cryptography" (1999) by Simon Singh, so there's that.
+**NOTE:** Do not use any of these cipher implmentations anywhere! It's not hard to imagine that there would be more security holes in these implementations than the number key permutations the ciphers can generate. *TL;DR;* these cipher implementations aren't safe.
 
 ## To implement (in no specific order)
 
