@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCryptoLib", "SimpleCr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCryptoRunner", "SimpleCryptoRunner\SimpleCryptoRunner.csproj", "{C9F9DD5E-F65C-4B67-B1F8-F04C2E4CBCBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCryptoUnitTests", "SimpleCryptoUnitTests\SimpleCryptoUnitTests.csproj", "{B9C7FBBC-0645-48F5-B698-533440954676}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{C9F9DD5E-F65C-4B67-B1F8-F04C2E4CBCBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9F9DD5E-F65C-4B67-B1F8-F04C2E4CBCBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9F9DD5E-F65C-4B67-B1F8-F04C2E4CBCBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9C7FBBC-0645-48F5-B698-533440954676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9C7FBBC-0645-48F5-B698-533440954676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9C7FBBC-0645-48F5-B698-533440954676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9C7FBBC-0645-48F5-B698-533440954676}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
