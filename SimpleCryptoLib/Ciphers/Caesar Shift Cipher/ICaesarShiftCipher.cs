@@ -6,7 +6,7 @@ namespace SimpleCryptoLib.Ciphers.Caesar_Shift_Cipher
     /// <summary>
     /// Caesar shift cipher.
     /// </summary>
-    public interface ICaesarShitCipher : ICommonCipher<CaesarShiftCipherKey>
+    public interface ICaesarShiftCipher : ICommonCipher<CaesarShiftCipherKey>
     {
     }
 }

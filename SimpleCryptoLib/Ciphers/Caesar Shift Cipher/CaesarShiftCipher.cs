@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimpleCryptoLib.Ciphers.Caesar_Shift_Cipher
 {
-    public class CaesarShiftCipher : ICaesarShitCipher
+    public class CaesarShiftCipher : ICaesarShiftCipher
     {
         public CaesarShiftCipher()
         {
