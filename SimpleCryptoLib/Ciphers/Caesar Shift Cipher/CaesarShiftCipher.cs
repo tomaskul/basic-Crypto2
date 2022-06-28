@@ -4,15 +4,13 @@ using System.Text;
 
 namespace SimpleCryptoLib.Ciphers.Caesar_Shift_Cipher
 {
+    /// <summary>Implementation of <see cref="ICaesarShiftCipher"/>.</summary>
     public class CaesarShiftCipher : ICaesarShiftCipher
     {
-        public CaesarShiftCipher()
-        {
-        }
-        
         public string EncryptMessage(string plainText, CaesarShiftCipherKey cipherKey)
         {
-            if (string.IsNullOrWhiteSpace(plainText)) { throw new ArgumentNullException(nameof(plainText)); }
+            if (string.IsNullOrWhiteSpace(plainText))
+                throw new ArgumentNullException(nameof(plainText));
 
             var sb = new StringBuilder(string.Empty);
 
