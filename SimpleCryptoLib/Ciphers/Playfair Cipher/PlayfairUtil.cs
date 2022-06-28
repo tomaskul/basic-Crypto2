@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SimpleCryptography.Ciphers.Playfair_Cipher
+namespace SimpleCryptoLib.Ciphers.Playfair_Cipher;
+
+public static class PlayfairUtil
 {
-    public static class PlayfairUtil
-    {
-        /// <summary>
+    /// <summary>
         /// Digraphs are composed in multiples of 2, which means the value bears significant importance when dealing
         /// with this cipher.
         /// </summary>
@@ -46,7 +46,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         public static bool IsValidCipherText(string cipherText)
         {
             // Not permitted: empty strings, non-alphabetic characters (i.e. special characters, numbers),
-            // omited character, non-upper case letters.
+            // omitted character, non-upper case letters.
             if (string.IsNullOrWhiteSpace(cipherText) 
                 || cipherText.Any(c => !char.IsLetter(c) || !char.IsUpper(c) || c == OmittedCharacter))
             {
@@ -58,5 +58,4 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
             // If none of the conditions are broken then the cipher text is valid.
             return true;
         }
-    }
 }

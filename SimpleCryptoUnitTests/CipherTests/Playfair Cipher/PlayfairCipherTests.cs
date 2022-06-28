@@ -1,40 +1,34 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
-using SimpleCryptography.Ciphers.Playfair_Cipher;
-using SimpleCryptography.Ciphers.Playfair_Cipher.Digraths;
-using SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management;
+using SimpleCryptoLib.Ciphers.Playfair_Cipher;
+using SimpleCryptoLib.Ciphers.Playfair_Cipher.Digraphs;
+using SimpleCryptoLib.Ciphers.Playfair_Cipher.Key_Management;
 
-namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
+namespace SimpleCryptoUnitTests.CipherTests.Playfair_Cipher;
+
+[TestFixture]
+public class PlayfairCipherTests
 {
-    [TestFixture]
-    public class PlayfairCipherTests
-    {
-        private static readonly IDigrathGenerator DigrathGenerator = new DigrathGenerator('X');
+    private static readonly IDigrathGenerator DigrathGenerator = new DigrathGenerator('X');
         private static readonly IPlayfairKeyManagement KeyManagement = new PlayfairKeyManagement();
         private static readonly IPlayfairCipher Cipher = new PlayfairCipher(DigrathGenerator, KeyManagement);
 
         [Test]
-        [TestCase("", "Hello")]
-        [TestCase("Msg", "")]
-        public void Encrypt_InvalidParams_ThrowsArgumentNullException(string message, string key)
-        {
-            Assert.Throws<ArgumentNullException>(() => Cipher.EncryptMessage(message, key));
-        }
-
-        [Test]
         [TestCase("5412", "Hello")]
         [TestCase("Valid msg", "88888888")]
+        [TestCase("", "Hello")]
+        [TestCase("Msg", "")]
         public void Encrypt_InvalidParams_ThrowsArgumentException(string message, string key)
         {
-            Assert.Throws<ArgumentException>(() => Cipher.EncryptMessage(message, key));
+            Assert.Throws<ArgumentException>(() => Cipher.EncryptMessage(message, new PlayfairKey(){ Value = key }));
         }
 
         [Test]
-        public void Encrypt_InvalidKey_ThrowsInvalidOperationException()
+        public void Encrypt_InvalidKey_ThrowsArgumentException()
         {
-            Assert.Throws<InvalidOperationException>(() => Cipher.EncryptMessage("msg", "abcdefghijklmnoprstuvwxyz"));
+            Assert.Throws<ArgumentException>(() => Cipher.EncryptMessage("msg", new PlayfairKey(){ Value = "abcdefghijklmnoprstuvwxyz" }));
         }
 
         [Test]
@@ -107,5 +101,4 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Playfair_Cipher
         }
 
         #endregion
-    }
 }

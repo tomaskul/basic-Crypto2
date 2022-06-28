@@ -63,17 +63,6 @@
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\IMonoalphabeticSubstitutionCipher.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionCipher.cs" />
     <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionKey.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\CharacterPosition.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digraths\Digraph.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digraths\DigrathGenerator.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digraths\IDigrathGenerator.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Digraths\NullableDigrath.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\IPlayfairCipher.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Key Management\IPlayfairKeyManagement.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Key Management\PlayfairKey.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\Key Management\PlayfairKeyManagement.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\PlayfairCipher.cs" />
-    <Compile Include="Ciphers\Playfair Cipher\PlayfairUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

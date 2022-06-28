@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
+namespace SimpleCryptoLib.Ciphers.Playfair_Cipher.Key_Management;
+
+/// <summary>
+/// This implementation uses the English alphabet and character 'Q' is omitted.
+/// </summary>
+public class PlayfairKeyManagement : IPlayfairKeyManagement
 {
-    /// <summary>
-    /// This implementation uses the English alphabet and character 'Q' is omitted.
-    /// </summary>
-    public class PlayfairKeyManagement : IPlayfairKeyManagement
-    {
-        private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
+    private const string Alphabet = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
         private const char OmittedCharacter = 'Q';
 
         public PlayfairKeyManagement()
@@ -109,5 +109,4 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management
 
             return true;
         }
-    }
 }

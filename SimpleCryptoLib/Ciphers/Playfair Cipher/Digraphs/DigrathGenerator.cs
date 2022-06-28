@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digraths
+namespace SimpleCryptoLib.Ciphers.Playfair_Cipher.Digraphs;
+
+public class DigrathGenerator : IDigrathGenerator
 {
-    public class DigrathGenerator : IDigrathGenerator
-    {
-        private char DigrathFillerCharacter { get; set; }
+    private char DigrathFillerCharacter { get; set; }
         private IEnumerable<Digraph> Digraths { get; set; }
 
         public DigrathGenerator(char digrathFillerCharacter)
@@ -91,5 +91,4 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher.Digraths
 
             return sb.ToString();
         }
-    }
 }

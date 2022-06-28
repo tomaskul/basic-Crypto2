@@ -1,21 +1,21 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using SimpleCryptography.Ciphers.Playfair_Cipher.Digraths;
-using SimpleCryptography.Ciphers.Playfair_Cipher.Key_Management;
+using SimpleCryptoLib.Ciphers.Playfair_Cipher.Digraphs;
+using SimpleCryptoLib.Ciphers.Playfair_Cipher.Key_Management;
 
-namespace SimpleCryptography.Ciphers.Playfair_Cipher
+namespace SimpleCryptoLib.Ciphers.Playfair_Cipher;
+
+public class PlayfairCipher : IPlayfairCipher
 {
-    public class PlayfairCipher : IPlayfairCipher
-    {
-        private const int CipherGridDimension = 5; // Cipher specifies 5 by 5 grid for the key.
+    private const int CipherGridDimension = 5; // Cipher specifies 5 by 5 grid for the key.
 
         private readonly IDigrathGenerator _digrathGenerator;
         private readonly IPlayfairKeyManagement _keyManagement;
 
         /// <summary>
         /// Constructs an object able to encrypt & decrypt messages using playfair cipher. Please note
-        /// that this implementaton only uses English alphabet and letter 'Q' is being omitted from the
+        /// that this implementation only uses English alphabet and letter 'Q' is being omitted from the
         /// cipher key table. Numbers and special characters are ignored.
         /// </summary>
         /// <param name="digrathGenerator">Digrath generator.</param>
@@ -85,7 +85,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         {
             return PerformGenericPlayfair(digraphs, key, true).ToLower();
         }
-
+        
         #region Generic Algorithm Functions
 
         private static string PerformGenericPlayfair(IEnumerable<Digraph> digraphs, PlayfairKey key,
@@ -251,7 +251,7 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         }
 
         /// <summary>
-        /// Gets characters' column index by utilising its' absolte index value (in relation to cipher key).
+        /// Gets characters' column index by utilising its' obsolete index value (in relation to cipher key).
         /// </summary>
         /// <param name="absoluteIndex">Character index within the cipher key.</param>
         /// <returns>Column index.</returns>
@@ -261,5 +261,4 @@ namespace SimpleCryptography.Ciphers.Playfair_Cipher
         }
 
         #endregion
-    }
 }
