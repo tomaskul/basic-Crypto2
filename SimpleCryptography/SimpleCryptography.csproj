@@ -50,16 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CipherCrackers\AnalysedEntity.cs" />
-    <Compile Include="CipherCrackers\FrequencyAnalysis\AnalysedCharacter.cs" />
-    <Compile Include="CipherCrackers\FrequencyAnalysis\CharFrequencyAnalyzer.cs" />
-    <Compile Include="CipherCrackers\FrequencyAnalysis\ICharFrequencyAnalyzer.cs" />
-    <Compile Include="CipherCrackers\Playfair\AnalysedDigrath.cs" />
-    <Compile Include="CipherCrackers\Playfair\IPlayfairAnalyser.cs" />
-    <Compile Include="CipherCrackers\Playfair\PlayfairAnalyser.cs" />
-    <Compile Include="Ciphers\Generic\IGenericCipher.cs" />
-    <Compile Include="Ciphers\Generic\Key Management\BaseCipherKey.cs" />
-    <Compile Include="Ciphers\Generic\Key Management\ICipherKeyManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

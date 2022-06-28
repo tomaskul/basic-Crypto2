@@ -1,15 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
+namespace SimpleCryptoLib.Crackers.Frequency_Analysis;
+
+public class CharFrequencyAnalyzer : ICharFrequencyAnalyzer
 {
-    public class CharFrequencyAnalyzer : ICharFrequencyAnalyzer
-    {
-        public CharFrequencyAnalyzer()
-        {
-        }
-        
         public AnalysedCharacter GetSingleAnalyzedCharacter(char character, string sourceText)
         {
             var targetCharacter = new AnalysedCharacter(character);
@@ -42,7 +38,7 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
         {
             if (string.IsNullOrEmpty(sourceText))
             {
-                throw new ArgumentNullException("Cannot analyze contents of an empty input.");
+                throw new ArgumentNullException( sourceText, "Cannot analyze contents of an empty input.");
             }
             
             var uniqueCharacters = new Dictionary<char, AnalysedCharacter>();
@@ -91,5 +87,4 @@ namespace SimpleCryptography.CipherCrackers.FrequencyAnalysis
                 yield return character.Value;
             }
         }
-    }
 }

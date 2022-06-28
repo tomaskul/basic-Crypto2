@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SimpleCryptography.Ciphers.Playfair_Cipher;
-using SimpleCryptography.Ciphers.Playfair_Cipher.Digraths;
+using SimpleCryptoLib.Ciphers.Playfair_Cipher;
+using SimpleCryptoLib.Ciphers.Playfair_Cipher.Digraphs;
 
-namespace SimpleCryptography.CipherCrackers.Playfair
+namespace SimpleCryptoLib.Crackers.Playfair;
+
+public class PlayfairAnalyser : IPlayfairAnalyser
 {
-    public class PlayfairAnalyser : IPlayfairAnalyser
-    {
-        private readonly IDigrathGenerator _digraphGenerator;
+    private readonly IDigrathGenerator _digraphGenerator;
         
         public PlayfairAnalyser(IDigrathGenerator digraphGenerator)
         {
@@ -78,5 +78,4 @@ namespace SimpleCryptography.CipherCrackers.Playfair
             }
             return sb.ToString();
         }
-    }
 }

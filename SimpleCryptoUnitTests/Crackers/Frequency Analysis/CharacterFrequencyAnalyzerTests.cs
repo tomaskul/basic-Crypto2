@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Linq;
 using NUnit.Framework;
-using SimpleCryptography.CipherCrackers.FrequencyAnalysis;
+using SimpleCryptoLib.Crackers.Frequency_Analysis;
 
-namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Tests
+namespace SimpleCryptoUnitTests.Crackers.Frequency_Analysis;
+
+[TestFixture]
+public class CharacterFrequencyAnalyzerTests
 {
-    [TestFixture]
-    public class CharacterFrequencyAnalyzerTests
-    {
-        #region GetSingleAnalyzedCharacter
+    #region GetSingleAnalyzedCharacter
 
         [Test]
         [TestCase('*', "")]
@@ -126,10 +126,10 @@ namespace SimpleCryptographyUnitTests.Cipher_Cracker_Tests.Frequency_Analysis_Te
         {
             var frequencyAnalyzer = new CharFrequencyAnalyzer();
 
-            Assert.Throws<ArgumentNullException>(() => { frequencyAnalyzer.GetAllAnalyzedCharacters(string.Empty); });
+            var output = frequencyAnalyzer.GetAllAnalyzedCharacters(string.Empty);
+            
+            Assert.Throws<ArgumentNullException>(() => frequencyAnalyzer.GetAllAnalyzedCharacters(string.Empty));
         }
 
         #endregion
-        
-    }
 }
