@@ -31,7 +31,7 @@ public class VigenereCipher : IVigenereCipher
         foreach (var plainTextCharacter in plainText.ToUpper())
         {
             // Append special characters
-            if (!IsAlphabeticalCharacter(plainTextCharacter))
+            if (!DoesInputContainAlphabeticalCharacters(plainTextCharacter.ToString()))
             {
                 sb.Append(plainTextCharacter);
                 continue;
@@ -69,7 +69,7 @@ public class VigenereCipher : IVigenereCipher
         foreach (var encryptedCharacter in cipherText)
         {
             // Append special characters.
-            if (!IsAlphabeticalCharacter(encryptedCharacter))
+            if (!DoesInputContainAlphabeticalCharacters(encryptedCharacter.ToString()))
             {
                 sb.Append(encryptedCharacter);
                 continue;
@@ -89,27 +89,14 @@ public class VigenereCipher : IVigenereCipher
     }
 
     /// <summary>
-    /// Determines whether the supplied cipher text/plain text contains alphabetical characters and therefore
-    /// whether it's possible to encrypt or decrypt the input. 
+    /// Determines whether the supplied <paramref name="input"/> contains alphabetical character(s).
     /// </summary>
-    /// <param name="cipherOrPlainText">Cipher/Plain text input.</param>
+    /// <param name="input">Input to analyse.</param>
     /// <returns><c>true</c>If input is alphabetical; otherwise <c>false</c>.</returns>
-    private static bool DoesInputContainAlphabeticalCharacters(string cipherOrPlainText)
+    private static bool DoesInputContainAlphabeticalCharacters(string input)
     {
         var regex = new Regex(RegexAlphabetPattern);
-        var matches = regex.Matches(cipherOrPlainText, 0);
-        return matches.Count != 0;
-    }
-
-    /// <summary>
-    /// Determines whether the specified character is a member of the alphabet.
-    /// </summary>
-    /// <param name="character">Character to evaluate.</param>
-    /// <returns><c>true</c> if character is within the alphabet; otherwise <c>false</c>.</returns>
-    private static bool IsAlphabeticalCharacter(char character)
-    {
-        var regex = new Regex(RegexAlphabetPattern);
-        var matches = regex.Matches(character.ToString(), 0);
+        var matches = regex.Matches(input, 0);
         return matches.Count != 0;
     }
 
