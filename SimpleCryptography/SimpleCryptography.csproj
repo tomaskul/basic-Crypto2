@@ -60,9 +60,6 @@
     <Compile Include="Ciphers\Generic\IGenericCipher.cs" />
     <Compile Include="Ciphers\Generic\Key Management\BaseCipherKey.cs" />
     <Compile Include="Ciphers\Generic\Key Management\ICipherKeyManagement.cs" />
-    <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\IMonoalphabeticSubstitutionCipher.cs" />
-    <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionCipher.cs" />
-    <Compile Include="Ciphers\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

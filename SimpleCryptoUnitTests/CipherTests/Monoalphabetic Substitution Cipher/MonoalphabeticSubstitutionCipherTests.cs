@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
-using SimpleCryptography.Ciphers.Monoalphabetic_Substitution_Cipher;
+using SimpleCryptoLib.Ciphers.Monoalphabetic_Substitution_Cipher;
 
-namespace SimpleCryptographyUnitTests.Cipher_Tests.Monoalphabetic_Substitution_Cipher
+namespace SimpleCryptoUnitTests.CipherTests.Monoalphabetic_Substitution_Cipher;
+
+[TestFixture]
+public class MonoalphabeticSubstitutionCipherTests
 {
-    [TestFixture]
-    public class MonoalphabeticSubstitutionCipherTests
-    {
-        private static readonly MonoalphabeticSubstitutionCipher Cipher = new MonoalphabeticSubstitutionCipher();
+    private static readonly MonoalphabeticSubstitutionCipher Cipher = new MonoalphabeticSubstitutionCipher();
         private static readonly MonoalphabeticSubstitutionKey Key = new MonoalphabeticSubstitutionKey(new Dictionary<char, char>()
         {
             { 'm', 'A' }, { 'g', 'B' }, { 'a', 'C' }, { 'r', 'D' }, { 'b', 'E' },
@@ -63,5 +63,4 @@ namespace SimpleCryptographyUnitTests.Cipher_Tests.Monoalphabetic_Substitution_C
             
             Assert.AreEqual(plainText, decryptedMessage);
         }
-    }
 }

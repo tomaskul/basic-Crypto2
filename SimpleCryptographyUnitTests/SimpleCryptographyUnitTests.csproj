@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cipher Cracker Tests\Frequency Analysis Tests\CharacterFrequencyAnalyzerTests.cs" />
-    <Compile Include="Cipher Tests\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionCipherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
