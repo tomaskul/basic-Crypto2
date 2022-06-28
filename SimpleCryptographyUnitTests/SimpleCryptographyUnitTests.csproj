@@ -45,14 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cipher Cracker Tests\Frequency Analysis Tests\CharacterFrequencyAnalyzerTests.cs" />
-    <Compile Include="Cipher Tests\Caesar Shift Cipher\CaesarShiftCipherTests.cs" />
-    <Compile Include="Cipher Tests\Monoalphabetic Substitution Cipher\MonoalphabeticSubstitutionCipherTests.cs" />
-    <Compile Include="Cipher Tests\Playfair Cipher\DigramGeneratorTests.cs" />
-    <Compile Include="Cipher Tests\Playfair Cipher\KeyManagementTests.cs" />
-    <Compile Include="Cipher Tests\Playfair Cipher\PlayfairCipherTests.cs" />
-    <Compile Include="Cipher Tests\Playfair Cipher\PlayfairUtilTests.cs" />
-    <Compile Include="Cipher Tests\Vigenere Square\VigenereCipherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
