@@ -7,7 +7,7 @@ namespace SimpleCryptoUnitTests.CipherTests.Playfair_Cipher;
 public class DigramGeneratorTests
 {
     private static readonly IDigrathGenerator DigrathGenerator = new DigrathGenerator('X');
-        
+
     [Test]
     [TestCase("X", "XX")]
     [TestCase("LOL", "LO LX")]

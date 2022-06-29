@@ -15,7 +15,7 @@ public class KeyManagementTests
     [TestCase("GRENOBLIACDFHJKMPSTUVWXYZ")]
     public void IsValidCipherKey_ValidKey_IsTrue(string cipherKey)
     {
-        Assert.IsTrue(KeyManagement.IsValidCipherKey(new PlayfairKey {Value = cipherKey}));
+        Assert.IsTrue(KeyManagement.IsValidCipherKey(new PlayfairKey { Value = cipherKey }));
     }
 
     [Test]
@@ -32,7 +32,7 @@ public class KeyManagementTests
     [TestCase("233DEFGHIJKLMNOPRSTUVWXYZ")]
     public void IsValidCipherKey_InvalidKey_IsFalse(string cipherKey)
     {
-        Assert.IsFalse(KeyManagement.IsValidCipherKey(new PlayfairKey {Value = cipherKey}));
+        Assert.IsFalse(KeyManagement.IsValidCipherKey(new PlayfairKey { Value = cipherKey }));
     }
 
     #endregion
